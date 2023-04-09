@@ -16,9 +16,7 @@ PatchHandler extends RequestHandler = RequestHandler> {
     delete: DeleteHandler[];
     patch: PatchHandler[];
   };
-  constructor() {
-    this.run()
-  }
+
   use<T extends RequestHandler>(...handlers: T[]) {
     this.handlers.use.push(...handlers);
     return this;
@@ -49,7 +47,7 @@ PatchHandler extends RequestHandler = RequestHandler> {
       await handler(req, res);
     }
   }
-  private run() {
+  public run() {
     return async (req: NextApiRequest, res: NextApiResponse) => {
       await this.dispatch(this.handlers.use, req, res);
       switch (req.method) {

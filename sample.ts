@@ -2,9 +2,10 @@ import { createRouter } from "./src";
 import { validate } from "./src/validation";
 import { z } from "zod";
 
-const router = createRouter();
-
-router
+const router = createRouter()
+  .use((req, res) => {
+    console.log("middleware");
+  })
   .post(
     validate({
       body: z.object({
@@ -19,9 +20,6 @@ router
       res.status(200).json({ message: "ok" });
     })
 
-export default router;
+export default router.run()
 
-type Post = typeof router.handlers.post
-
-type Req = Parameters<Post[number]>[0]
-type Body = Req['body']
+export type API = typeof router
