@@ -1,0 +1,9 @@
+{
+  "name": "next-validated-api",
+  "packageManager": "yarn@3.4.1",
+  "devDependencies": {
+    "zod": "^3.21.4",
+    "@types/node": "^18.15.11",
+    "next": "^13.3.0"
+  }
+}
