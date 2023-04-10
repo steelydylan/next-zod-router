@@ -21,13 +21,12 @@ export async function postApiData<
   } = {}
 ): Promise<ResBody> {
   const url = query ? `${key}?${qs.stringify(query)}` : key;
-  const { data, error } = await fetch(url, {
+  const data = await fetch(url, {
     ...requestInit,
     method: "POST",
     headers: { ...defaultHeaders, ...requestInit?.headers },
     body: requestInit?.body ? JSON.stringify(requestInit.body) : undefined,
   }).then((res) => res.json());
-  if (error) throw error;
   return data;
 }
 // _____________________________________________________________________________
@@ -48,13 +47,12 @@ export async function putApiData<
   } = {}
 ): Promise<ResBody> {
   const url = query ? `${key}?${qs.stringify(query)}` : key;
-  const { data, error } = await fetch(url, {
+  const data = await fetch(url, {
     ...requestInit,
     method: "PUT",
     headers: { ...defaultHeaders, ...requestInit?.headers },
     body: requestInit?.body ? JSON.stringify(requestInit.body) : undefined,
   }).then((res) => res.json());
-  if (error) throw error;
   return data;
 }
 // _____________________________________________________________________________
@@ -75,13 +73,12 @@ export async function patchApiData<
   } = {}
 ): Promise<ResBody> {
   const url = query ? `${key}?${qs.stringify(query)}` : key;
-  const { data, error } = await fetch(url, {
+  const data = await fetch(url, {
     ...requestInit,
     method: "PATCH",
     headers: { ...defaultHeaders, ...requestInit?.headers },
     body: requestInit?.body ? JSON.stringify(requestInit.body) : undefined,
   }).then((res) => res.json());
-  if (error) throw error;
   return data;
 }
 // _____________________________________________________________________________
@@ -102,13 +99,12 @@ export async function deleteApiData<
   } = {}
 ): Promise<ResBody> {
   const url = query ? `${key}?${qs.stringify(query)}` : key;
-  const { data, error } = await fetch(url, {
+  const data = await fetch(url, {
     ...requestInit,
     method: "DELETE",
     headers: { ...defaultHeaders, ...requestInit?.headers },
     body: requestInit?.body ? JSON.stringify(requestInit.body) : undefined,
   }).then((res) => res.json());
-  if (error) throw error;
   return data;
 }
 
@@ -127,11 +123,10 @@ export async function getApiData<
   } = {}
 ): Promise<ResBody> {
   const url = query ? `${key}?${qs.stringify(query)}` : key;
-  const { data, error } = await fetch(url, {
+  const data = await fetch(url, {
     ...requestInit,
     method: "GET",
     headers: { ...defaultHeaders, ...requestInit?.headers },
   }).then((res) => res.json());
-  if (error) throw error;
   return data;
 }
