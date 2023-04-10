@@ -363,6 +363,8 @@ __metadata:
     ts-node: ^10.9.1
     typescript: ^5.0.4
     zod: ^3.21.4
+  bin:
+    apigen: ./tools/index.js
   languageName: unknown
   linkType: soft
 

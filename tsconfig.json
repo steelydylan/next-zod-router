@@ -28,6 +28,7 @@
   },
   "include": [
     "src/**/*.ts",
+    "pages/**/*.ts",
     "types/**/*.d.ts"
   ],
   "exclude": [
