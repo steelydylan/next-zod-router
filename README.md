@@ -1,28 +1,34 @@
 # next-typed-connect
 
-next.jsで型安全なAPIを作るためのライブラリ
+A library for creating type-safe APIs in next.js.
 
-## 使い方
 
-### インストール
+## Usage
+
+### Installation
+
 
 ```bash
+## npm
 npm install next-typed-connect
+
+## yarn
+yarn add next-typed-connect
 ```
 
-### サーバーサイド
+### Server-side
 
-1. zodを使って、body, query, resの型を定義します。
-2. createRouterでルーティング処理を作成します。
-3. validateで作成したルーティング処理に型を付与します。
-4. その型をGetHandler, PostHandlerとしてexportします。
+1. Use zod to define the types for body, query, and res.
+2. Create routing handling with createRouter.
+3. Assign types to the created routing handling with validate.
+4. Export the types as GetHandler and PostHandler.
 
 ```ts
 // pages/api/sample.ts
 import { ApiHandler, createRouter, validate } from "next-typed-connect";
 import { z } from "zod";
 
-/* zodによるschema定義 */
+/* Schema definition using zod */
 const postValidation = {
   body: z.object({
     foo: z.string(),
@@ -44,7 +50,7 @@ const getValidation = {
   }),
 }    
 
-/* ルーティング処理 */
+/* Routing */
 const router = createRouter()
 
 router
@@ -65,29 +71,26 @@ router
       res.status(200).json({ message: "ok" });
     })
 
-/* 型のexport */
+/* Type export */
 export type PostHandler = ApiHandler<typeof postValidation>
 export type GetHandler = ApiHandler<typeof getValidation>
 
-/* ルーティング処理のexport */
+/* Routing handling export */
 export default router.run()
 ```
 
-### 型生成
+### Type generation
 
-npm
 
 ```bash
+## npm
 npx next-typed-connect
-```
 
-yarn
-
-```bash
+## yarn
 yarn next-typed-connect
 ```
 
-package.jsonにスクリプトを追加しておくと便利です。
+Adding a script to your package.json is convenient.
 
 ```json
 {
@@ -101,12 +104,12 @@ package.jsonにスクリプトを追加しておくと便利です。
 npm run apigen
 ```
 
-### クライアントサイド
+### Client-side
 
 ```ts
 import { postApiData, getApiData } from "next-typed-connect";
 
-// 型安全にAPIを叩ける
+// Type-safe API call
 postApiData("/api/sample", {
   query: {
     bar: "baz",
@@ -125,11 +128,11 @@ postApiData("/api/sample", {
   });
 ```
 
-## コマンドオプション
+## Command options
 
-| オプション | 説明 | デフォルト値 |
+| Option | Description | Default value |
 | --- | --- | --- |
-| --pagesDir | ページのディレクトリ | pages |
-| --baseDir | プロジェクトのディレクトリ | . |
-| --distDir | 型定義ファイルの出力先 | node_modules/.next-typed-connect |
-| --moduleNameSpace | 型定義ファイルのモジュール名 | .next-typed-connect |
+| --pagesDir | Pages directory | pages |
+| --baseDir | Project directory | . |
+| --distDir | Type definition file output destination	 | node_modules/.next-typed-connect |
+| --moduleNameSpace | Type definition file module name | .next-typed-connect |
