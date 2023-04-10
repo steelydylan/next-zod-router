@@ -1,9 +1,7 @@
 {
   "name": "next-typed-connect",
   "packageManager": "yarn@3.4.1",
-  "bin": {
-    "apigen": "./tools/index.js"
-  },
+  "bin": "./tools/index.js",
   "scripts": {
     "build": "tsc",
     "gen:apitype": "npm run gen:apitype:clean && npm run gen:apitype:build",
@@ -11,6 +9,8 @@
     "gen:apitype:clean": "rimraf ./src/types/pages/api",
     "gen:apitype:watch": "nodemon"
   },
+  "types": "lib/index.d.ts",
+  "main": "lib/index.js",
   "devDependencies": {
     "@types/node": "^18.15.11",
     "next": "^13.3.0",

@@ -364,7 +364,7 @@ __metadata:
     typescript: ^5.0.4
     zod: ^3.21.4
   bin:
-    apigen: ./tools/index.js
+    next-typed-connect: ./tools/index.js
   languageName: unknown
   linkType: soft
 
