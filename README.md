@@ -2,6 +2,10 @@
 
 A library for creating type-safe APIs in next.js.
 
+# Screenshots
+
+![](./screenshot.png)
+
 
 ## Usage
 
