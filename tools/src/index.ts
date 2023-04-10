@@ -15,5 +15,4 @@ function main({ baseDir, pagesDir, distDir, moduleNameSpaece }: Config) {
 
   emitModulesShim(fileInfos, moduleNameSpaece);
 }
-
 main(config);
