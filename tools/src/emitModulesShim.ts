@@ -18,9 +18,10 @@ export function emitModulesShim(
     distDir,
     path.resolve(distDir, '../index.d.ts'),
     printList([
-      ...fileInfos.map((info) => 
-        factory.createTypeReferenceNode(`/// <reference path=".${info.apiPath}.d.ts" />`, undefined)
-      ),
+      ...fileInfos.map((info) => {
+        const pathname = info.distPath.includes('index.ts') ? ".${info.apiPath}/index.d.ts" : `.${info.apiPath}.d.ts`;
+        return factory.createTypeReferenceNode(`/// <reference path="${pathname}" />`, undefined)
+      }),
       factory.createModuleDeclaration(
         // undefined,
         [factory.createModifier(ts.SyntaxKind.DeclareKeyword)],
