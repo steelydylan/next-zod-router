@@ -142,3 +142,7 @@ postApiData("/api/sample", {
 | --baseDir | Project directory | . |
 | --distDir | Type definition file output destination	 | node_modules/.next-typed-connect |
 | --moduleNameSpace | Type definition file module name | .next-typed-connect |
+
+## Reference
+
+https://zenn.dev/takepepe/articles/nextjs-typesafe-api-routes
