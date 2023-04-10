@@ -2,3 +2,4 @@ node_modules/*
 .yarn/*
 types/pages/**/*.d.ts
 lib/*
+tools/lib/*

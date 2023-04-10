@@ -1,10 +1,11 @@
 {
-  "version": "0.0.4",
+  "version": "0.0.5",
   "name": "next-typed-connect",
   "packageManager": "yarn@3.4.1",
   "bin": "./tools/index.js",
   "scripts": {
     "build": "rimraf ./lib && tsc",
+    "build:tool": "rimraf ./tools/lib && tsc -p ./tools/tsconfig.json",
     "gen:apitype": "npm run gen:apitype:clean && npm run gen:apitype:build",
     "gen:apitype:build": "ts-node ./tools/src/index.ts",
     "gen:apitype:clean": "rimraf ./src/types/pages/api",
