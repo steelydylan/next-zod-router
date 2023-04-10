@@ -4,6 +4,12 @@ next.jsで型安全なAPIを作るためのライブラリ
 
 ## 使い方
 
+### インストール
+
+```bash
+npm install next-typed-connect
+```
+
 ### サーバーサイド
 
 1. zodを使って、body, query, resの型を定義します。
