@@ -1,7 +1,7 @@
 const path = require("path");
 // ______________________________________________________
 //
-module.exports = {
+export default {
   moduleNameSpaece: "@/types/pages/api",
   baseDir: path.resolve("."),
   pagesDir: path.resolve("pages"),

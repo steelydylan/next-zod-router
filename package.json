@@ -1,6 +1,9 @@
 {
   "name": "next-typed-connect",
   "packageManager": "yarn@3.4.1",
+  "bin": {
+    "apigen": "./tools/index.js"
+  },
   "scripts": {
     "build": "tsc",
     "gen:apitype": "npm run gen:apitype:clean && npm run gen:apitype:build",

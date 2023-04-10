@@ -1,11 +1,7 @@
-{
-  "ts-node": {
-    // these options are overrides used only by ts-node
-    "compilerOptions": {
-      "module": "commonjs"
-    }
-  },
-  "compilerOptions": {
+#! /usr/bin/env node
+
+require('ts-node').register({
+  compilerOptions: {
     "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
@@ -14,6 +10,6 @@
     "esModuleInterop": true,
     "rootDir": "src",
     "outDir": "./dist"
-  },
-  "include": ["./src/**/*"]
-}
+  }
+});
+require('./src/index.ts');

@@ -1,6 +1,5 @@
 declare module "@/types/pages/api" {
   interface PostQuery {
-
   }
   interface GetQuery {
   }
