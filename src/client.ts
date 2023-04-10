@@ -1,5 +1,5 @@
 import { DeleteQuery, PatchQuery, GetQuery, PostQuery, PutQuery } from "@/types/pages/api";
-import qs from "query-string";
+import qs from "qs";
 
 const defaultHeaders = {
   "Content-Type": "application/json",
