@@ -3,10 +3,20 @@ import { z } from 'zod' ;
 
 type RequestHandler = (req: NextApiRequest, res: NextApiResponse) => void;
 
+type ErrorHandler = (err: ApiError, req: NextApiRequest, res: NextApiResponse) => void;
+
 type ApiZodSchema = {
   body?: z.ZodSchema<any>
   query?: z.ZodSchema<any>
   res?: z.ZodSchema<any>
+}
+
+export class ApiError extends Error {
+  statusCode: number;
+  constructor(message: string, statusCode: number) {
+    super(message);
+    this.statusCode = statusCode;
+  }
 }
 
 export type ApiHandler<T extends ApiZodSchema> = {
@@ -28,6 +38,7 @@ PatchHandler extends RequestHandler> {
     put: PutHandler[];
     delete: DeleteHandler[];
     patch: PatchHandler[];
+    error: ErrorHandler
   };
 
   constructor() {
@@ -38,6 +49,9 @@ PatchHandler extends RequestHandler> {
       put: [],
       delete: [],
       patch: [],
+      error: (e, req, res) => {
+        res.status(e.statusCode).json({ message: e.message });
+      },
     };
   }
 
@@ -65,10 +79,23 @@ PatchHandler extends RequestHandler> {
     this.handlers.patch.push(...handlers);
     return this;
   }
+  onError<T extends ErrorHandler>(handler: T) {
+    this.handlers.error = handler;
+    return this;
+  }
   private async dispatch(handlers: RequestHandler[], req: NextApiRequest, res: NextApiResponse) {
-    for (const handler of handlers) {
-      if (res.writableEnded) return;
-      await handler(req, res);
+    try {
+      for (const handler of handlers) {
+        if (res.writableEnded) return;
+        await handler(req, res);
+      }
+    } catch (e) {
+      if (e instanceof ApiError) {
+        this.handlers.error(e, req, res);
+      } else {
+        const error = new ApiError("Internal Server Error", 500);
+        this.handlers.error(error, req, res);
+      }
     }
   }
   public run() {
@@ -95,6 +122,11 @@ PatchHandler extends RequestHandler> {
       }
     }
   }
+}
+
+export function createError(message: string, statusCode: number) {
+  const error = new ApiError(message, statusCode);
+  throw error;
 }
 
 export function createRouter() {
