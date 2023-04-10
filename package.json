@@ -1,5 +1,5 @@
 {
-  "name": "next-validated-api",
+  "name": "next-typed-connect",
   "packageManager": "yarn@3.4.1",
   "scripts": {
     "build": "tsc",
