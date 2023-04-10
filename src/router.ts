@@ -124,7 +124,7 @@ PatchHandler extends RequestHandler> {
   }
 }
 
-export function createError(message: string, statusCode: number) {
+export function createError(statusCode: number, message: string) {
   const error = new ApiError(message, statusCode);
   throw error;
 }
