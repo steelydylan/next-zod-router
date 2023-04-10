@@ -103,19 +103,19 @@ PatchHandler extends RequestHandler> {
       await this.dispatch(this.handlers.use, req, res);
       switch (req.method) {
         case "GET":
-          this.dispatch(this.handlers.get, req, res)
+          await this.dispatch(this.handlers.get, req, res)
           break;
         case "POST":
-          this.dispatch(this.handlers.post, req, res)
+          await this.dispatch(this.handlers.post, req, res)
           break;
         case "PUT":
-          this.dispatch(this.handlers.put, req, res)
+          await this.dispatch(this.handlers.put, req, res)
           break;
         case "DELETE":
-          this.dispatch(this.handlers.delete, req, res)
+          await this.dispatch(this.handlers.delete, req, res)
           break;
         case "PATCH":
-          this.dispatch(this.handlers.patch, req, res)
+          await this.dispatch(this.handlers.patch, req, res)
           break;
         default:
           res.status(405).json({ message: "Method not allowed" });
