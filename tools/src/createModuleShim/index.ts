@@ -8,18 +8,18 @@ export const createModuleShim = ({
   methods,
   apiPath,
   importPath,
-  moduleNameSpaece,
+  moduleNameSpace,
 }: {
   methods: string[];
   apiPath: string;
   importPath: string;
-  moduleNameSpaece: string;
+  moduleNameSpace: string;
 }) => [
   createImportDeclarations(methods, importPath),
   factory.createModuleDeclaration(
     // undefined,
     [factory.createModifier(ts.SyntaxKind.DeclareKeyword)],
-    factory.createStringLiteral(moduleNameSpaece),
+    factory.createStringLiteral(moduleNameSpace),
     factory.createModuleBlock([
       ...methods.map((method) => createShim(method, apiPath, "Query"))
     ])

@@ -25,3 +25,13 @@ export const createShim = (method: string, apiPath: string, shimName: string) =>
       ),
     ]
   );
+
+export const createEmptyShim = (method: string, shimName: string) =>
+  factory.createInterfaceDeclaration(
+    undefined,
+    // undefined,
+    factory.createIdentifier(method + shimName),
+    undefined,
+    undefined,
+    []
+  );

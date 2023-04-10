@@ -1,4 +1,4 @@
-import { DeleteQuery, PatchQuery, GetQuery, PostQuery, PutQuery } from "@/types/pages/api";
+import { DeleteQuery, PatchQuery, GetQuery, PostQuery, PutQuery } from ".next-typed-connect";
 import qs from "qs";
 
 const defaultHeaders = {

@@ -12,6 +12,6 @@ function main({ baseDir, pagesDir, distDir, moduleNameSpace }: Config) {
     .getRootFileNames()
     .filter((fileName) => fileName.match(apiDir))
     .map(mapFileInfo(apiDir, distDir, pagesDir, program));
-  emitModulesShim(fileInfos, moduleNameSpace);
+  emitModulesShim(fileInfos, moduleNameSpace, distDir);
 }
 main(config);

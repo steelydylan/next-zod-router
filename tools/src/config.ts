@@ -2,8 +2,8 @@ const path = require("path");
 // ______________________________________________________
 //
 export default {
-  moduleNameSpace: "@/types/pages/api",
+  moduleNameSpace: ".next-typed-connect",
   baseDir: path.resolve("."),
   pagesDir: path.resolve("pages"),
-  distDir: path.resolve(__dirname, "../../" ,"types/pages/api"),
+  distDir: path.resolve("node_modules/.next-typed-connect/api"),
 };
