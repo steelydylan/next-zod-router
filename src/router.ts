@@ -30,6 +30,17 @@ PatchHandler extends RequestHandler> {
     patch: PatchHandler[];
   };
 
+  constructor() {
+    this.handlers = {
+      use: [],
+      get: [],
+      post: [],
+      put: [],
+      delete: [],
+      patch: [],
+    };
+  }
+
   use<T extends RequestHandler>(...handlers: T[]) {
     this.handlers.use.push(...handlers);
     return this;

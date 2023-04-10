@@ -15,6 +15,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "./lib",
+    "declaration": true,
     "declarationDir": "./lib",
     "incremental": true,
     "esModuleInterop": true,
@@ -26,9 +27,8 @@
     "baseUrl": "."
   },
   "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
+    "src/**/*.ts",
+    "types/**/*.d.ts"
   ],
   "exclude": [
     "node_modules"

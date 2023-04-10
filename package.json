@@ -2,6 +2,7 @@
   "name": "next-validated-api",
   "packageManager": "yarn@3.4.1",
   "scripts": {
+    "build": "tsc",
     "gen:apitype": "npm run gen:apitype:clean && npm run gen:apitype:build",
     "gen:apitype:build": "ts-node ./tools/src/index.ts",
     "gen:apitype:clean": "rimraf ./src/types/pages/api",
@@ -10,14 +11,14 @@
   "devDependencies": {
     "@types/node": "^18.15.11",
     "next": "^13.3.0",
-    "rimraf": "^5.0.0",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.0.4",
     "zod": "^3.21.4"
   },
   "dependencies": {
     "@types/fs-extra": "^11.0.1",
     "fs-extra": "^11.1.1",
-    "query-string": "^8.1.0"
+    "query-string": "^8.1.0",
+    "rimraf": "^5.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
   }
 }
