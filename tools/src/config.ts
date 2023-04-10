@@ -5,5 +5,5 @@ export default {
   moduleNameSpace: "@/types/pages/api",
   baseDir: path.resolve("."),
   pagesDir: path.resolve("pages"),
-  distDir: path.resolve("types/pages/api"),
+  distDir: path.resolve(__dirname, "../../" ,"types/pages/api"),
 };
