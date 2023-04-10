@@ -19,15 +19,28 @@ export async function postApiData<
     query?: ReqQuery;
     requestInit?: Omit<RequestInit, "body"> & { body?: ReqBody };
   } = {}
-): Promise<ResBody> {
+): Promise<{ data: ResBody | null, error: unknown | null }> {
   const url = query ? `${key}?${qs.stringify(query)}` : key;
-  const data = await fetch(url, {
+  const res = await fetch(url, {
     ...requestInit,
     method: "POST",
     headers: { ...defaultHeaders, ...requestInit?.headers },
     body: requestInit?.body ? JSON.stringify(requestInit.body) : undefined,
-  }).then((res) => res.json());
-  return data;
+  })
+  .then((res) => res.json())
+  .then((data) => {
+    return {
+      data,
+      error: null,
+    }
+  })
+  .catch((err) => {
+    return {
+      data: null,
+      error: err,
+    }
+  });
+  return res
 }
 // _____________________________________________________________________________
 //
@@ -45,15 +58,28 @@ export async function putApiData<
     query?: ReqQuery;
     requestInit?: Omit<RequestInit, "body"> & { body?: ReqBody };
   } = {}
-): Promise<ResBody> {
+): Promise<{ data: ResBody | null, error: unknown | null }> {
   const url = query ? `${key}?${qs.stringify(query)}` : key;
-  const data = await fetch(url, {
+  const res = await fetch(url, {
     ...requestInit,
     method: "PUT",
     headers: { ...defaultHeaders, ...requestInit?.headers },
     body: requestInit?.body ? JSON.stringify(requestInit.body) : undefined,
-  }).then((res) => res.json());
-  return data;
+  })
+  .then((res) => res.json())
+  .then((data) => {
+    return {
+      data,
+      error: null,
+    }
+  })
+  .catch((err) => {
+    return {
+      data: null,
+      error: err,
+    }
+  });
+  return res
 }
 // _____________________________________________________________________________
 //
@@ -71,15 +97,28 @@ export async function patchApiData<
     query?: ReqQuery;
     requestInit?: Omit<RequestInit, "body"> & { body?: ReqBody };
   } = {}
-): Promise<ResBody> {
+): Promise<{ data: ResBody | null, error: unknown | null }> {
   const url = query ? `${key}?${qs.stringify(query)}` : key;
-  const data = await fetch(url, {
+  const res = await fetch(url, {
     ...requestInit,
     method: "PATCH",
     headers: { ...defaultHeaders, ...requestInit?.headers },
     body: requestInit?.body ? JSON.stringify(requestInit.body) : undefined,
-  }).then((res) => res.json());
-  return data;
+  })
+  .then((res) => res.json())
+  .then((data) => {
+    return {
+      data,
+      error: null,
+    }
+  })
+  .catch((err) => {
+    return {
+      data: null,
+      error: err,
+    }
+  });
+  return res
 }
 // _____________________________________________________________________________
 //
@@ -97,15 +136,28 @@ export async function deleteApiData<
     query?: ReqQuery;
     requestInit?: Omit<RequestInit, "body"> & { body?: ReqBody };
   } = {}
-): Promise<ResBody> {
+): Promise<{ data: ResBody | null, error: unknown | null }> {
   const url = query ? `${key}?${qs.stringify(query)}` : key;
-  const data = await fetch(url, {
+  const res = await fetch(url, {
     ...requestInit,
     method: "DELETE",
     headers: { ...defaultHeaders, ...requestInit?.headers },
     body: requestInit?.body ? JSON.stringify(requestInit.body) : undefined,
-  }).then((res) => res.json());
-  return data;
+  })
+  .then((res) => res.json())
+  .then((data) => {
+    return {
+      data,
+      error: null,
+    }
+  })
+  .catch((err) => {
+    return {
+      data: null,
+      error: err,
+    }
+  });
+  return res
 }
 
 export async function getApiData<
@@ -121,12 +173,25 @@ export async function getApiData<
     query?: ReqQuery;
     requestInit?: Omit<RequestInit, "body">;
   } = {}
-): Promise<ResBody> {
+): Promise<{ data: ResBody | null, error: unknown | null }> {
   const url = query ? `${key}?${qs.stringify(query)}` : key;
-  const data = await fetch(url, {
+  const res = await fetch(url, {
     ...requestInit,
     method: "GET",
     headers: { ...defaultHeaders, ...requestInit?.headers },
-  }).then((res) => res.json());
-  return data;
+  })
+  .then((res) => res.json())
+  .then((data) => {
+    return {
+      data,
+      error: null,
+    }
+  })
+  .catch((err) => {
+    return {
+      data: null,
+      error: err,
+    }
+  });
+  return res
 }
