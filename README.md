@@ -87,11 +87,11 @@ export default router.run()
 
 ### Error handling
 
+
+#### throw error
+
 ```ts
 // pages/api/sample.ts
-import { ApiHandler, createRouter, createError, validate } from "next-typed-connect";
-import { z } from "zod";
-
 router
   .post(
     validate(postValidation),
@@ -102,6 +102,18 @@ router
       }
       res.status(200).json({ message: "ok" });
     })
+```
+
+#### custom error handling
+
+```ts
+// pages/api/sample.ts
+
+router
+  .onError((err, req, res) => {
+    // custom error handling
+    res.status(err.statusCode).json({ message: err.message });
+  })
 ```
 
 ### Type generation
