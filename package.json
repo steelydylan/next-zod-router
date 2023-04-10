@@ -20,6 +20,7 @@
   "dependencies": {
     "@types/fs-extra": "^11.0.1",
     "@types/qs": "^6.9.7",
+    "chokidar": "^3.5.3",
     "commander": "^10.0.0",
     "fs-extra": "^11.1.1",
     "qs": "^6.11.1",

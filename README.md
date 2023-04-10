@@ -2,6 +2,11 @@
 
 A library for creating type-safe APIs in next.js.
 
+## Motivation
+
+I wanted to create type-safe APIs in Next.js using zod and I wanted to be able to generate type definition files for client-side use.
+But I couldn't find a library that met my needs, so I created this library.
+
 ## Features
 
 - Type-safe API routing

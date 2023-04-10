@@ -86,7 +86,7 @@ PatchHandler extends RequestHandler> {
   private async dispatch(handlers: RequestHandler[], req: NextApiRequest, res: NextApiResponse) {
     try {
       for (const handler of handlers) {
-        if (res.writableEnded) return;
+        if (res.writableEnded) break;
         await handler(req, res);
       }
     } catch (e) {
