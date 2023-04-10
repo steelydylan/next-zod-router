@@ -9,7 +9,7 @@ next.jsで型安全なAPIを作るためのライブラリ
 pages/api/sample.ts
 
 ```ts
-import { ApiHandler, createRouter, validate } from "../../src";
+import { ApiHandler, createRouter, validate } from "next-typed-connect";
 import { z } from "zod";
 
 /* zodによるschema定義 */
