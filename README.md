@@ -136,6 +136,12 @@ postApiData("/api/sample", {
 
 ## Command options
 
+The default pages directory is `pages`, so if you want to change it, you can use the `--pagesDir` option.
+
+```bash
+next-typed-connect --pagesDir=src/pages
+```
+
 | Option | Description | Default value |
 | --- | --- | --- |
 | --pagesDir | Pages directory | pages |
