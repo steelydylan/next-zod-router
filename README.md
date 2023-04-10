@@ -76,6 +76,8 @@ router
     })
 
 /* Type export */
+// the export type name should be as follows
+// so that the type definition file can be generated correctly via the command.
 export type PostHandler = ApiHandler<typeof postValidation>
 export type GetHandler = ApiHandler<typeof getValidation>
 
