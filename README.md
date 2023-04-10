@@ -70,7 +70,7 @@ export default router.run()
 ### 型生成
 
 ```bash
-npx next-typed-connect
+npm run next-typed-connect
 ```
 
 ### クライアントサイド
