@@ -75,8 +75,30 @@ export default router.run()
 
 ### 型生成
 
+npm
+
 ```bash
 npx next-typed-connect
+```
+
+yarn
+
+```bash
+yarn next-typed-connect
+```
+
+package.jsonにスクリプトを追加しておくと便利です。
+
+```json
+{
+  "scripts": {
+    "apigen": "next-typed-connect"
+  }
+}
+```
+
+```bash
+npm run apigen
 ```
 
 ### クライアントサイド
