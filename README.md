@@ -85,6 +85,25 @@ export type GetHandler = ApiHandler<typeof getValidation>
 export default router.run()
 ```
 
+### Error handling
+
+```ts
+// pages/api/sample.ts
+import { ApiHandler, createRouter, createError, validate } from "next-typed-connect";
+import { z } from "zod";
+
+router
+  .post(
+    validate(postValidation),
+    (req, res) => {
+      const session = getSession(req)
+      if (!session) {
+        throw createError(401, "Unauthorized")
+      }
+      res.status(200).json({ message: "ok" });
+    })
+```
+
 ### Type generation
 
 

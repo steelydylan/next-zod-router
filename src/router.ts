@@ -93,7 +93,7 @@ PatchHandler extends RequestHandler> {
       if (e instanceof ApiError) {
         this.handlers.error(e, req, res);
       } else {
-        const error = new ApiError("Internal Server Error", 500);
+        const error = createError(500, "Internal Server Error");
         this.handlers.error(error, req, res);
       }
     }
@@ -126,7 +126,7 @@ PatchHandler extends RequestHandler> {
 
 export function createError(statusCode: number, message: string) {
   const error = new ApiError(message, statusCode);
-  throw error;
+  return error;
 }
 
 export function createRouter() {
