@@ -13,5 +13,5 @@ export type Config = {
   baseDir: string;
   distDir: string;
   pagesDir: string;
-  moduleNameSpaece: string;
+  moduleNameSpace: string;
 };
