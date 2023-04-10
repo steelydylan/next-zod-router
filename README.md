@@ -181,3 +181,18 @@ next-typed-connect --pagesDir=src/pages
 | --baseDir | Project directory | . |
 | --distDir | Type definition file output destination	 | node_modules/.next-typed-connect |
 | --moduleNameSpace | Type definition file module name | .next-typed-connect |
+
+## Tips
+
+If you want to add session property to Request type, you can use the following code.
+
+```ts
+// global.d.ts
+import { IncomingMessage } from "http";
+
+declare module 'next' {
+  export interface NextApiRequest extends IncomingMessage {
+    session: Session
+  }
+}
+```
