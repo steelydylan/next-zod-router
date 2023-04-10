@@ -147,7 +147,7 @@ npm run apigen
 import { postApiData, getApiData } from "next-typed-connect";
 
 // Type-safe API call
-postApiData("/api/sample", {
+const { data, error } = await postApiData("/api/sample", {
   query: {
     bar: "baz",
   },
@@ -157,12 +157,6 @@ postApiData("/api/sample", {
     },
   }
 })
-  .then((res) => {
-    res.message;
-  })
-  .catch((err) => {
-    err.message;
-  });
 ```
 
 ## Command options
