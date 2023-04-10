@@ -6,9 +6,14 @@ next.jsで型安全なAPIを作るためのライブラリ
 
 ### サーバーサイド
 
-pages/api/sample.ts
+
+1. zodを使って、body, query, resの型を定義します。
+2. createRouterでルーティング処理を作成します。
+3. validateで作成したルーティング処理に型を付与します。
+4. その型をGetHandler, PostHandlerとしてexportします。
 
 ```ts
+// pages/api/sample.ts
 import { ApiHandler, createRouter, validate } from "next-typed-connect";
 import { z } from "zod";
 
