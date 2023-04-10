@@ -2,7 +2,15 @@
 
 A library for creating type-safe APIs in next.js.
 
-# Screenshots
+## Features
+
+- Type-safe API routing
+- Type-safe API call
+- error handling
+- Type definition file generation
+- Middleware support
+
+## Screenshots
 
 ![](./screenshot.png)
 
