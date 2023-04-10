@@ -250,6 +250,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"commander@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "commander@npm:10.0.0"
+  checksum: 9f6495651f878213005ac744dd87a85fa3d9f2b8b90d1c19d0866d666bda7f735adfd7c2f10dfff345782e2f80ea258f98bb4efcef58e4e502f25f883940acfd
+  languageName: node
+  linkType: hard
+
 "create-require@npm:^1.1.0":
   version: 1.1.1
   resolution: "create-require@npm:1.1.1"
@@ -394,6 +401,7 @@ __metadata:
     "@types/fs-extra": ^11.0.1
     "@types/node": ^18.15.11
     "@types/qs": ^6.9.7
+    commander: ^10.0.0
     fs-extra: ^11.1.1
     next: ^13.3.0
     qs: ^6.11.1

@@ -7,9 +7,8 @@
     "build": "rimraf ./lib && yarn gen:apitype && tsc",
     "build:tool": "npm run gen:apitype:clean && tsc -p ./tools/tsconfig.json",
     "gen:apitype": "npm run gen:apitype:clean && npm run gen:apitype:build",
-    "gen:apitype:build": "ts-node ./tools/src/index.ts",
-    "gen:apitype:clean": "rimraf ./node_modules/.next-typed-connect",
-    "gen:apitype:watch": "nodemon"
+    "gen:apitype:build": "ts-node ./tools/src/test.ts",
+    "gen:apitype:clean": "rimraf ./node_modules/.next-typed-connect"
   },
   "types": "lib/src/index.d.ts",
   "main": "lib/src/index.js",
@@ -21,6 +20,7 @@
   "dependencies": {
     "@types/fs-extra": "^11.0.1",
     "@types/qs": "^6.9.7",
+    "commander": "^10.0.0",
     "fs-extra": "^11.1.1",
     "qs": "^6.11.1",
     "rimraf": "^5.0.0",

@@ -101,3 +101,13 @@ postApiData("/api/sample", {
   .catch((err) => {
     err.message;
   });
+```
+
+## コマンドオプション
+
+| オプション | 説明 | デフォルト値 |
+| --- | --- | --- |
+| --pagesDir | ページのディレクトリ | pages |
+| --baseDir | プロジェクトのディレクトリ | . |
+| --distDir | 型定義ファイルの出力先 | node_modules/.next-typed-connect |
+| --moduleNameSpace | 型定義ファイルのモジュール名 | .next-typed-connect |

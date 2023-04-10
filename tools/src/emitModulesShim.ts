@@ -16,7 +16,7 @@ export function emitModulesShim(
   const methods = ["Get", "Post", "Put", "Delete", "Patch"];
   emitFile(
     distDir,
-    path.resolve(distDir, '../index.d.ts'),
+    path.resolve(distDir, 'index.d.ts'),
     printList([
       ...fileInfos.map((info) => {
         const pathname = info.distFileName === 'index.d.ts' ? `.${info.apiPath}/index.d.ts` : `.${info.apiPath}.d.ts`;

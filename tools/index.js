@@ -1,13 +1,13 @@
 #! /usr/bin/env node
-const rimraf = require('rimraf');
+const { program } = require('commander');
+const { main } = require('./lib/index.js');
+const path = require('path');
 
-// Clean up the dist folder
-rimraf.sync('node_modules/.next-typed-connect');
-const pkg = {
-  name: ".next-typed-connect",
-  version: "1.0.0",
-  types: "index.d.ts"
-}
-require('fs').mkdirSync('node_modules/.next-typed-connect');
-require('fs').writeFileSync('node_modules/.next-typed-connect/package.json', JSON.stringify(pkg, null, 2));
-require('./lib/index.js');
+program
+  .option('-p, --pagesDir <dir>', '--pagesDir <path>', path.resolve("pages"))
+  .option('-b, --baseDir <dir>', '--baseDir <path>', path.resolve("."))
+  .option('-d, --distDir <dir>', '--distDir <path>', path.resolve("node_modules/.next-typed-connect"))
+  .option('-m, --moduleNameSpace <dir>', '--moduleNameSpace <path>', ".next-typed-connect")
+program.parse(process.argv);
+const options = program.opts();
+main(options);
