@@ -3,11 +3,12 @@ import { z } from "zod";
 
 const getValidation = {
   query: z.object({
-    bar: z.string().optional(),
+    id: z.string().optional(),
   }),
   res: z.object({
     message: z.string(),
   }),
+  // for client side only
   params: z.object({
     id: z.string(),
   }),
@@ -23,7 +24,7 @@ router
   .get(
     validate(getValidation),
     (req, res) => {
-      req.query.bar;
+      req.query.id;
       res.status(200).json({ message: "ok" });
     })
 

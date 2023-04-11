@@ -137,6 +137,10 @@ router
 // pages/api/[id].ts
 
 const getValidation = {
+  query: z.object({
+    id: z.string().optional(),
+  }),
+  // for client side
   params: z.object({
     id: z.string(),
   }),
@@ -146,7 +150,7 @@ router
   .get(
     validate(getValidation),
     (req, res) => {
-      req.params.id;
+      req.query.id;
       res.status(200).json({ message: "ok" });
     })
 ```
