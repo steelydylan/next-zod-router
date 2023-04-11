@@ -138,12 +138,9 @@ router
 
 const getValidation = {
   // 👇 for server side validation
+  // 👇 also necessary for client side url construction
   query: z.object({
     id: z.string().optional(),
-  }),
-  // 👇 necessary for client side url construction
-  params: z.object({
-    id: z.string(),
   }),
 }
 
@@ -163,10 +160,12 @@ router
 import { client } from "next-typed-connect";
 
 client.get("/api/[id]", {
-  params: {
+  query: {
     id: "1",
   },
 })
+
+// url will be /api/1
 ```
 
 ### Type generation
