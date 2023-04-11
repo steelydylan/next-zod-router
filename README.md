@@ -129,6 +129,41 @@ router
   })
 ```
 
+### dynamic routing
+
+#### Server-side
+
+```ts
+// pages/api/[id].ts
+
+const getValidation = {
+  params: z.object({
+    id: z.string(),
+  }),
+}
+
+router
+  .get(
+    validate(getValidation),
+    (req, res) => {
+      req.params.id;
+      res.status(200).json({ message: "ok" });
+    })
+```
+
+#### Client-side
+
+```ts
+// client.ts
+import { client } from "next-typed-connect";
+
+client.get("/api/[id]", {
+  params: {
+    id: "1",
+  },
+})
+```
+
 ### Type generation
 
 
