@@ -1,6 +1,5 @@
 import * as fs from "fs-extra";
-// ______________________________________________________
-//
+
 export const emitFile = (
   distDir: string,
   fileName: string,

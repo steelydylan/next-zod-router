@@ -1,6 +1,5 @@
 import { factory } from "typescript";
-// ______________________________________________________
-//
+
 // OUTPUT:
 // import type { ${method[0]}Handler, ${method[1]}Handler } from "${importPath}";
 //

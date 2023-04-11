@@ -1,6 +1,5 @@
 import * as ts from "typescript";
-// ______________________________________________________
-//
+
 const printer = ts.createPrinter();
 
 export const printList = (elements?: readonly ts.Node[]) =>

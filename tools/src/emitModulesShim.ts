@@ -6,8 +6,7 @@ import type { FileInfo } from "./types";
 import { factory } from "typescript";
 import path from "path";
 import { createEmptyShim } from "./createModuleShim/createShim";
-// ______________________________________________________
-//
+
 export function emitModulesShim(
   fileInfos: FileInfo[],
   moduleNameSpace: string,

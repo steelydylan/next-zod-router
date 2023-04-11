@@ -1,7 +1,6 @@
 import * as ts from "typescript";
 import { createConfigFileHost } from "./createConfigFileHost";
-// ______________________________________________________
-//
+
 export const createProgram = (
   searchPath: string,
   configName = "tsconfig.json"

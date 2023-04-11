@@ -1,6 +1,5 @@
 import * as ts from "typescript";
-// ______________________________________________________
-//
+
 export const createConfigFileHost = (): ts.ParseConfigFileHost => ({
   useCaseSensitiveFileNames: false,
   readDirectory: ts.sys.readDirectory,

@@ -1,6 +1,5 @@
 import { factory } from "typescript";
-// ______________________________________________________
-//
+
 // OUTPUT:
 // interface ${method}${shimName} {
 //   "${apiPath}": ${method}Handler;

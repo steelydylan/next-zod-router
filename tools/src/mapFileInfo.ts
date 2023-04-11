@@ -1,7 +1,6 @@
 import * as ts from "typescript";
 import type { FileInfo } from "./types";
-// ______________________________________________________
-//
+
 const targetAliases = [
   "GetHandler",
   "PostHandler",
@@ -23,8 +22,7 @@ function getMethodTypes(sourceFile?: ts.SourceFile) {
   }
   return buf;
 }
-// ______________________________________________________
-//
+
 export function mapFileInfo(
   src: string,
   dist: string,
@@ -44,7 +42,7 @@ export function mapFileInfo(
       .replace("/index", "")
       .slice(0, -3);
     const methodTypes = getMethodTypes(sourceFile);
-    
+
     return {
       srcPath,
       distPath,

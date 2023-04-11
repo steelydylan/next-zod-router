@@ -2,8 +2,7 @@ import * as ts from "typescript";
 import { factory } from "typescript";
 import { createImportDeclarations } from "./createImportDeclarations";
 import { createShim } from "./createShim";
-// ______________________________________________________
-//
+
 export const createModuleShim = ({
   methods,
   apiPath,
