@@ -11,12 +11,12 @@ program
   .option('-w, --watch', 'watch mode');
 program.parse(process.argv);
 const options = program.opts();
-main({
+const config = {
   pagesDir: path.resolve(options.pagesDir),
   baseDir: path.resolve(options.baseDir),
   distDir: path.resolve(options.distDir),
   moduleNameSpace: options.moduleNameSpace,
-});
+}
 
 if (options.watch) {
   const chokidar = require('chokidar');
@@ -26,11 +26,8 @@ if (options.watch) {
   });
   watcher.on('change', (path) => {
     console.log(`File ${path} has been changed`);
-    main({
-      pagesDir: path.resolve(options.pagesDir),
-      baseDir: path.resolve(options.baseDir),
-      distDir: path.resolve(options.distDir),
-      moduleNameSpace: options.moduleNameSpace,
-    });
+    main(config);
   });
+} else {
+  main(config);
 }
