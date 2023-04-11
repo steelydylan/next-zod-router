@@ -1,4 +1,4 @@
-import { ApiHandler, createRouter, validate } from "../../src";
+import { ApiHandler, createRouter, validate } from "../../../src";
 import { z } from "zod";
 
 const getValidation = {
@@ -8,11 +8,8 @@ const getValidation = {
   res: z.object({
     message: z.string(),
   }),
-}    
-
-const deleteValidation = {
-  query: z.object({
-    bar: z.string().optional(),
+  params: z.object({
+    id: z.string(),
   }),
 }
 
@@ -30,17 +27,8 @@ router
       res.status(200).json({ message: "ok" });
     })
 
-router
-  .delete(
-    validate(deleteValidation),
-    (req, res) => {
-      req.query.bar;
-      res.status(200).json({ message: "ok" });
-    })
-
 /* 型のexport */
 export type GetHandler = ApiHandler<typeof getValidation>
-export type DeleteHandler = ApiHandler<typeof deleteValidation>
 
 /* ルーティング処理のexport */
 export default router.run()

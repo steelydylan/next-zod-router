@@ -5,24 +5,60 @@ const defaultHeaders = {
   "Content-Type": "application/json",
 };
 
-export async function postApiData<
-  T extends keyof PostQuery,
-  ReqQuery extends PostQuery[T]["query"],
-  ResBody extends PostQuery[T]["res"],
-  ReqBody extends PostQuery[T]["body"]
->(
+function buildParams(url: string, params: Record<string, string>) {
+  // find [vars] in url
+  const matches = url.match(/\[([^\]]+)\]/g);
+  const replacedUrl = matches
+    ? matches.reduce((acc, match) => {
+        const key = match.slice(1, -1);
+        const value = params[key];
+        if (!value) {
+          return acc;
+        }
+        return acc.replace(match, value);
+      }
+      , url)
+    : url;
+  return replacedUrl;
+}
+
+function buildQuery(url: string, query: Record<string, string>) {
+  const queryString = qs.stringify(query);
+  return `${url}?${queryString}`;
+}
+
+function buildUrl(url: string, params?: Record<string, string>, query?: Record<string, string>) {
+  let replacedUrl = url;
+  if (params) {
+    replacedUrl = buildParams(replacedUrl, params);
+  }
+  if (query) {
+    replacedUrl = buildQuery(replacedUrl, query);
+  }
+  return replacedUrl;
+}
+
+export async function postApiData<T extends keyof PostQuery>(
   key: T,
   {
     query,
     body,
+    params,
     requestInit,
   }: {
-    query?: ReqQuery;
-    body?: ReqBody;
-    requestInit?: Omit<RequestInit, "body"> & { body?: ReqBody };
+    query?: PostQuery[T]["query"];
+    body?: PostQuery[T]["body"];
+    params?: PostQuery[T]["body"];
+    requestInit?: Omit<RequestInit, "body"> & { body?: PostQuery[T]["body"] };
   } = {}
-): Promise<{ data: ResBody | null, error: unknown | null }> {
-  const url = query ? `${key}?${qs.stringify(query)}` : key;
+): Promise<{ data: PostQuery[T]["res"] | null, error: unknown | null }> {
+  if (typeof key !== "string") {
+    return {
+      data: null,
+      error: new Error("url key must be string"),
+    }
+  }
+  const url = buildUrl(key, params, query);
   const requestBody = body || requestInit?.body;
   const res = await fetch(url, {
     ...requestInit,
@@ -46,24 +82,27 @@ export async function postApiData<
   return res
 }
 
-export async function putApiData<
-  T extends keyof PutQuery,
-  ReqQuery extends PutQuery[T]["query"],
-  ResBody extends PutQuery[T]["res"],
-  ReqBody extends PutQuery[T]["body"]
->(
+export async function putApiData<T extends keyof PutQuery>(
   key: T,
   {
     query,
+    params,
     body,
     requestInit,
   }: {
-    query?: ReqQuery;
-    body?: ReqBody;
-    requestInit?: Omit<RequestInit, "body"> & { body?: ReqBody };
+    query?: PutQuery[T]["query"];
+    body?: PutQuery[T]["body"];
+    params?: PutQuery[T]["params"];
+    requestInit?: Omit<RequestInit, "body"> & { body?: PutQuery[T]["body"] };
   } = {}
-): Promise<{ data: ResBody | null, error: unknown | null }> {
-  const url = query ? `${key}?${qs.stringify(query)}` : key;
+): Promise<{ data: PutQuery[T]["res"] | null, error: unknown | null }> {
+  if (typeof key !== "string") {
+    return {
+      data: null,
+      error: new Error("url key must be string"),
+    }
+  }
+  const url = buildUrl(key, params, query);
   const requestBody = body || requestInit?.body;
   const res = await fetch(url, {
     ...requestInit,
@@ -87,24 +126,27 @@ export async function putApiData<
   return res
 }
 
-export async function patchApiData<
-  T extends keyof PatchQuery,
-  ReqQuery extends PatchQuery[T]["query"],
-  ResBody extends PatchQuery[T]["res"],
-  ReqBody extends PatchQuery[T]["body"]
->(
+export async function patchApiData<T extends keyof PatchQuery>(
   key: T,
   {
     query,
+    params,
     body,
     requestInit,
   }: {
-    query?: ReqQuery;
-    body?: ReqBody;
-    requestInit?: Omit<RequestInit, "body"> & { body?: ReqBody };
+    query?: PatchQuery[T]["query"];
+    params?: PatchQuery[T]["params"];
+    body?: PatchQuery[T]["body"];
+    requestInit?: Omit<RequestInit, "body"> & { body?: PatchQuery[T]["body"] };
   } = {}
-): Promise<{ data: ResBody | null, error: unknown | null }> {
-  const url = query ? `${key}?${qs.stringify(query)}` : key;
+): Promise<{ data: PatchQuery[T]["res"] | null, error: unknown | null }> {
+  if (typeof key !== "string") {
+    return {
+      data: null,
+      error: new Error("url key must be string"),
+    }
+  }
+  const url = buildUrl(key, params, query);
   const requestBody = body || requestInit?.body;
   const res = await fetch(url, {
     ...requestInit,
@@ -128,24 +170,27 @@ export async function patchApiData<
   return res
 }
 
-export async function deleteApiData<
-  T extends keyof DeleteQuery,
-  ReqQuery extends DeleteQuery[T]["query"],
-  ResBody extends DeleteQuery[T]["res"],
-  ReqBody extends DeleteQuery[T]["body"]
->(
+export async function deleteApiData<T extends keyof DeleteQuery>(
   key: T,
   {
     query,
+    params,
     body,
     requestInit,
   }: {
-    query?: ReqQuery;
-    body?: ReqBody;
-    requestInit?: Omit<RequestInit, "body"> & { body?: ReqBody };
+    query?: DeleteQuery[T]["query"];
+    params?: DeleteQuery[T]["params"];
+    body?: DeleteQuery[T]["body"];
+    requestInit?: Omit<RequestInit, "body"> & { body?: DeleteQuery[T]["body"] };
   } = {}
-): Promise<{ data: ResBody | null, error: unknown | null }> {
-  const url = query ? `${key}?${qs.stringify(query)}` : key;
+): Promise<{ data: DeleteQuery[T]["res"] | null, error: unknown | null }> {
+  if (typeof key !== "string") {
+    return {
+      data: null,
+      error: new Error("url key must be string"),
+    }
+  }
+  const url = buildUrl(key, params, query);
   const requestBody = body || requestInit?.body;
   const res = await fetch(url, {
     ...requestInit,
@@ -169,21 +214,25 @@ export async function deleteApiData<
   return res
 }
 
-export async function getApiData<
-  T extends keyof GetQuery,
-  ReqQuery extends GetQuery[T]["query"],
-  ResBody extends GetQuery[T]["res"]
->(
+export async function getApiData<T extends keyof GetQuery>(
   key: T,
   {
     query,
+    params,
     requestInit,
   }: {
-    query?: ReqQuery;
+    query?: GetQuery[T]["query"];
+    params?: GetQuery[T]["params"];
     requestInit?: Omit<RequestInit, "body">;
   } = {}
-): Promise<{ data: ResBody | null, error: unknown | null }> {
-  const url = query ? `${key}?${qs.stringify(query)}` : key;
+): Promise<{ data: GetQuery[T]["res"] | null, error: unknown | null }> {
+  if (typeof key !== "string") {
+    return {
+      data: null,
+      error: new Error("url key must be string"),
+    }
+  }
+  const url = buildUrl(key, params, query);
   const res = await fetch(url, {
     ...requestInit,
     method: "GET",
