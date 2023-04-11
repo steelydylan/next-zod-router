@@ -14,18 +14,21 @@ export async function postApiData<
   key: T,
   {
     query,
+    body,
     requestInit,
   }: {
     query?: ReqQuery;
+    body?: ReqBody;
     requestInit?: Omit<RequestInit, "body"> & { body?: ReqBody };
   } = {}
 ): Promise<{ data: ResBody | null, error: unknown | null }> {
   const url = query ? `${key}?${qs.stringify(query)}` : key;
+  const requestBody = body || requestInit?.body;
   const res = await fetch(url, {
     ...requestInit,
     method: "POST",
     headers: { ...defaultHeaders, ...requestInit?.headers },
-    body: requestInit?.body ? JSON.stringify(requestInit.body) : undefined,
+    body: requestBody ? JSON.stringify(requestBody) : undefined
   })
   .then((res) => res.json())
   .then((data) => {
@@ -42,8 +45,7 @@ export async function postApiData<
   });
   return res
 }
-// _____________________________________________________________________________
-//
+
 export async function putApiData<
   T extends keyof PutQuery,
   ReqQuery extends PutQuery[T]["query"],
@@ -53,18 +55,21 @@ export async function putApiData<
   key: T,
   {
     query,
+    body,
     requestInit,
   }: {
     query?: ReqQuery;
+    body?: ReqBody;
     requestInit?: Omit<RequestInit, "body"> & { body?: ReqBody };
   } = {}
 ): Promise<{ data: ResBody | null, error: unknown | null }> {
   const url = query ? `${key}?${qs.stringify(query)}` : key;
+  const requestBody = body || requestInit?.body;
   const res = await fetch(url, {
     ...requestInit,
     method: "PUT",
     headers: { ...defaultHeaders, ...requestInit?.headers },
-    body: requestInit?.body ? JSON.stringify(requestInit.body) : undefined,
+    body: requestBody ? JSON.stringify(requestBody) : undefined
   })
   .then((res) => res.json())
   .then((data) => {
@@ -81,8 +86,7 @@ export async function putApiData<
   });
   return res
 }
-// _____________________________________________________________________________
-//
+
 export async function patchApiData<
   T extends keyof PatchQuery,
   ReqQuery extends PatchQuery[T]["query"],
@@ -92,18 +96,21 @@ export async function patchApiData<
   key: T,
   {
     query,
+    body,
     requestInit,
   }: {
     query?: ReqQuery;
+    body?: ReqBody;
     requestInit?: Omit<RequestInit, "body"> & { body?: ReqBody };
   } = {}
 ): Promise<{ data: ResBody | null, error: unknown | null }> {
   const url = query ? `${key}?${qs.stringify(query)}` : key;
+  const requestBody = body || requestInit?.body;
   const res = await fetch(url, {
     ...requestInit,
     method: "PATCH",
     headers: { ...defaultHeaders, ...requestInit?.headers },
-    body: requestInit?.body ? JSON.stringify(requestInit.body) : undefined,
+    body: requestBody ? JSON.stringify(requestBody) : undefined
   })
   .then((res) => res.json())
   .then((data) => {
@@ -120,8 +127,7 @@ export async function patchApiData<
   });
   return res
 }
-// _____________________________________________________________________________
-//
+
 export async function deleteApiData<
   T extends keyof DeleteQuery,
   ReqQuery extends DeleteQuery[T]["query"],
@@ -131,18 +137,21 @@ export async function deleteApiData<
   key: T,
   {
     query,
+    body,
     requestInit,
   }: {
     query?: ReqQuery;
+    body?: ReqBody;
     requestInit?: Omit<RequestInit, "body"> & { body?: ReqBody };
   } = {}
 ): Promise<{ data: ResBody | null, error: unknown | null }> {
   const url = query ? `${key}?${qs.stringify(query)}` : key;
+  const requestBody = body || requestInit?.body;
   const res = await fetch(url, {
     ...requestInit,
     method: "DELETE",
     headers: { ...defaultHeaders, ...requestInit?.headers },
-    body: requestInit?.body ? JSON.stringify(requestInit.body) : undefined,
+    body: requestBody ? JSON.stringify(requestBody) : undefined
   })
   .then((res) => res.json())
   .then((data) => {
@@ -195,3 +204,11 @@ export async function getApiData<
   });
   return res
 }
+
+export const client = {
+  post: postApiData,
+  put: putApiData,
+  patch: patchApiData,
+  delete: deleteApiData,
+  get: getApiData,
+};

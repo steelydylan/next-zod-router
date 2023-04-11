@@ -4,7 +4,7 @@ A library for creating type-safe APIs in next.js.
 
 ## Motivation
 
-I wanted to create type-safe APIs in Next.js using zod and I wanted to be able to generate type definition files for client-side use.
+I wanted to create type-safe APIs in Next.js using zod and also wanted to generate type definition files for client-side use so that I could use intuitive API calls.
 But I couldn't find a library that met my needs, so I created this library.
 
 ## Features
@@ -157,18 +157,16 @@ npm run apigen
 ### Client-side
 
 ```ts
-import { postApiData, getApiData } from "next-typed-connect";
+import { client } from "next-typed-connect";
 
 // Type-safe API call
-const { data, error } = await postApiData("/api/sample", {
+const { data, error } = await client.post("/api/sample", {
   query: {
     bar: "baz",
   },
-  requestInit: {
-    body: {
-      foo: "bar",
-    },
-  }
+  body: {
+    foo: "bar",
+  },
 })
 ```
 
