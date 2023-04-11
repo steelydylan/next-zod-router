@@ -7,11 +7,11 @@
     "build": "rimraf ./lib && yarn gen:apitype && tsc",
     "build:tool": "npm run gen:apitype:clean && tsc -p ./tools/tsconfig.json",
     "gen:apitype": "npm run gen:apitype:clean && npm run gen:apitype:build",
-    "gen:apitype:build": "ts-node ./tools/src/test.ts",
+    "gen:apitype:build": "ts-node ./tools/src/test.ts --pagesDir=tests/pages --baseDir=tests",
     "gen:apitype:clean": "rimraf ./node_modules/.next-typed-connect"
   },
-  "types": "lib/src/index.d.ts",
-  "main": "lib/src/index.js",
+  "types": "lib/index.d.ts",
+  "main": "lib/index.js",
   "devDependencies": {
     "@types/node": "^18.15.11",
     "next": "^13.3.0",

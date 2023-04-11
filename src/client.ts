@@ -5,8 +5,12 @@ const defaultHeaders = {
   "Content-Type": "application/json",
 };
 
-function buildParams(url: string, params: Record<string, string>) {
+function buildParams(url: string, params?: Record<string, string>) {
+  if (!params) {
+    return { url, usedKeys: [] };
+  }
   // find [vars] in url
+  const usedKeys: string[] = [];
   const matches = url.match(/\[([^\]]+)\]/g);
   const replacedUrl = matches
     ? matches.reduce((acc, match) => {
@@ -15,27 +19,37 @@ function buildParams(url: string, params: Record<string, string>) {
         if (!value) {
           return acc;
         }
+        usedKeys.push(key);
         return acc.replace(match, value);
       }
       , url)
     : url;
-  return replacedUrl;
+  return {
+    url: replacedUrl,
+    usedKeys,
+  };
 }
 
-function buildQuery(url: string, query: Record<string, string>) {
+function buildQuery(url: string, query?: Record<string, string>) {
+  if (!query) {
+    return url;
+  }
   const queryString = qs.stringify(query);
   return `${url}?${queryString}`;
 }
 
-function buildUrl(url: string, params?: Record<string, string>, query?: Record<string, string>) {
-  let replacedUrl = url;
-  if (params) {
-    replacedUrl = buildParams(replacedUrl, params);
+function buildUrl(url: string, query?: Record<string, string>) {
+  if (!query) {
+    return url;
   }
-  if (query) {
-    replacedUrl = buildQuery(replacedUrl, query);
-  }
-  return replacedUrl;
+  const { url: replacedUrl, usedKeys } = buildParams(url, query)
+  const unUsedKeys = Object.keys(query || {}).filter((key) => !usedKeys.includes(key));
+  const unUsedQuery = unUsedKeys.reduce((acc, key) => {
+    acc[key] = query[key];
+    return acc;
+  }, {} as Record<string, string>);
+  const finalUrl = buildQuery(replacedUrl, unUsedQuery);
+  return finalUrl;
 }
 
 export async function postApiData<T extends keyof PostQuery>(
@@ -43,12 +57,10 @@ export async function postApiData<T extends keyof PostQuery>(
   {
     query,
     body,
-    params,
     requestInit,
   }: {
     query?: PostQuery[T]["query"];
     body?: PostQuery[T]["body"];
-    params?: PostQuery[T]["body"];
     requestInit?: Omit<RequestInit, "body"> & { body?: PostQuery[T]["body"] };
   } = {}
 ): Promise<{ data: PostQuery[T]["res"] | null, error: unknown | null }> {
@@ -58,7 +70,7 @@ export async function postApiData<T extends keyof PostQuery>(
       error: new Error("url key must be string"),
     }
   }
-  const url = buildUrl(key, params, query);
+  const url = buildUrl(key, query);
   const requestBody = body || requestInit?.body;
   const res = await fetch(url, {
     ...requestInit,
@@ -86,13 +98,11 @@ export async function putApiData<T extends keyof PutQuery>(
   key: T,
   {
     query,
-    params,
     body,
     requestInit,
   }: {
     query?: PutQuery[T]["query"];
     body?: PutQuery[T]["body"];
-    params?: PutQuery[T]["params"];
     requestInit?: Omit<RequestInit, "body"> & { body?: PutQuery[T]["body"] };
   } = {}
 ): Promise<{ data: PutQuery[T]["res"] | null, error: unknown | null }> {
@@ -102,7 +112,7 @@ export async function putApiData<T extends keyof PutQuery>(
       error: new Error("url key must be string"),
     }
   }
-  const url = buildUrl(key, params, query);
+  const url = buildUrl(key, query);
   const requestBody = body || requestInit?.body;
   const res = await fetch(url, {
     ...requestInit,
@@ -130,12 +140,10 @@ export async function patchApiData<T extends keyof PatchQuery>(
   key: T,
   {
     query,
-    params,
     body,
     requestInit,
   }: {
     query?: PatchQuery[T]["query"];
-    params?: PatchQuery[T]["params"];
     body?: PatchQuery[T]["body"];
     requestInit?: Omit<RequestInit, "body"> & { body?: PatchQuery[T]["body"] };
   } = {}
@@ -146,7 +154,7 @@ export async function patchApiData<T extends keyof PatchQuery>(
       error: new Error("url key must be string"),
     }
   }
-  const url = buildUrl(key, params, query);
+  const url = buildUrl(key, query);
   const requestBody = body || requestInit?.body;
   const res = await fetch(url, {
     ...requestInit,
@@ -174,12 +182,10 @@ export async function deleteApiData<T extends keyof DeleteQuery>(
   key: T,
   {
     query,
-    params,
     body,
     requestInit,
   }: {
     query?: DeleteQuery[T]["query"];
-    params?: DeleteQuery[T]["params"];
     body?: DeleteQuery[T]["body"];
     requestInit?: Omit<RequestInit, "body"> & { body?: DeleteQuery[T]["body"] };
   } = {}
@@ -190,7 +196,7 @@ export async function deleteApiData<T extends keyof DeleteQuery>(
       error: new Error("url key must be string"),
     }
   }
-  const url = buildUrl(key, params, query);
+  const url = buildUrl(key, query);
   const requestBody = body || requestInit?.body;
   const res = await fetch(url, {
     ...requestInit,
@@ -218,11 +224,9 @@ export async function getApiData<T extends keyof GetQuery>(
   key: T,
   {
     query,
-    params,
     requestInit,
   }: {
     query?: GetQuery[T]["query"];
-    params?: GetQuery[T]["params"];
     requestInit?: Omit<RequestInit, "body">;
   } = {}
 ): Promise<{ data: GetQuery[T]["res"] | null, error: unknown | null }> {
@@ -232,7 +236,7 @@ export async function getApiData<T extends keyof GetQuery>(
       error: new Error("url key must be string"),
     }
   }
-  const url = buildUrl(key, params, query);
+  const url = buildUrl(key, query);
   const res = await fetch(url, {
     ...requestInit,
     method: "GET",

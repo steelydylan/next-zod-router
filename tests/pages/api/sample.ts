@@ -1,4 +1,4 @@
-import { ApiHandler, createRouter, validate } from "../../src";
+import { ApiHandler, createRouter, validate } from "../../../src";
 import { z } from "zod";
 
 /* zodによるschema定義 */

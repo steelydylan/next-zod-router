@@ -1,4 +1,4 @@
-import type { PostHandler, GetHandler } from "../../../../pages/api/sample";
+import type { PostHandler, GetHandler } from "../../../../tests/api/sample";
 declare module "@/types/pages/api" {
     interface PostQuery {
         "/api/sample": PostHandler;

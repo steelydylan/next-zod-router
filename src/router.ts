@@ -24,7 +24,6 @@ export type ApiHandler<T extends ApiZodSchema> = {
   body: T["body"] extends z.ZodSchema<any> ? z.infer<T["body"]> : never;
   query: T["query"] extends z.ZodSchema<any> ? z.infer<T["query"]> : never;
   res:  T["res"] extends z.ZodSchema<any> ? z.infer<T["res"]>: never;
-  params: T["params"] extends z.ZodSchema<any> ? z.infer<T["params"]> : never;
 }
 
 class Router<

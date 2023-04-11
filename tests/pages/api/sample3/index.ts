@@ -1,18 +1,14 @@
-import { ApiHandler, createRouter, validate } from "../../../src";
+import { ApiHandler, createRouter, validate } from "../../../../src";
 import { z } from "zod";
 
 const getValidation = {
   query: z.object({
-    id: z.string().optional(),
+    bar: z.string().optional(),
   }),
   res: z.object({
     message: z.string(),
   }),
-  // for client side only
-  params: z.object({
-    id: z.string(),
-  }),
-}
+}    
 
 /* ルーティング処理 */
 const router = createRouter()
@@ -24,7 +20,7 @@ router
   .get(
     validate(getValidation),
     (req, res) => {
-      req.query.id;
+      req.query.bar;
       res.status(200).json({ message: "ok" });
     })
 

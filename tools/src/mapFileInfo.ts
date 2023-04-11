@@ -36,7 +36,7 @@ export function mapFileInfo(
     const distDir = distArr.splice(0, distArr.length - 1).join("/");
     const distPath = `${distDir}/${distFileName}`;
     const sourceFile = program.getSourceFile(srcPath);
-    const importPath = filePath.replace(".ts", "");
+    const importPath = filePath.replace(/.ts[x]/, "");
     const apiPath = filePath
       .replace(pagesDir, "")
       .replace("/index", "")
