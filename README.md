@@ -137,6 +137,7 @@ router
 // pages/api/[id].ts
 
 const getValidation = {
+  // 👇 for server side validation
   query: z.object({
     id: z.string().optional(),
   }),
