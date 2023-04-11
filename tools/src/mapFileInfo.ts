@@ -44,7 +44,7 @@ export function mapFileInfo(
       .replace("/index", "")
       .slice(0, -3);
     const methodTypes = getMethodTypes(sourceFile);
-    console.log(methodTypes)
+    
     return {
       srcPath,
       distPath,
