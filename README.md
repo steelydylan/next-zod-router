@@ -140,7 +140,7 @@ const getValidation = {
   query: z.object({
     id: z.string().optional(),
   }),
-  // for client side url construction
+  // 👇 necessary for client side url construction
   params: z.object({
     id: z.string(),
   }),
