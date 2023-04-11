@@ -4,14 +4,19 @@ const { main } = require('./lib/index.js');
 const path = require('path');
 
 program
-  .option('-p, --pagesDir <dir>', '--pagesDir <path>', path.resolve("pages"))
-  .option('-b, --baseDir <dir>', '--baseDir <path>', path.resolve("."))
-  .option('-d, --distDir <dir>', '--distDir <path>', path.resolve("node_modules/.next-typed-connect"))
+  .option('-p, --pagesDir <dir>', '--pagesDir <path>', "pages")
+  .option('-b, --baseDir <dir>', '--baseDir <path>', ".")
+  .option('-d, --distDir <dir>', '--distDir <path>', "node_modules/.next-typed-connect")
   .option('-m, --moduleNameSpace <dir>', '--moduleNameSpace <path>', ".next-typed-connect")
   .option('-w, --watch', 'watch mode');
 program.parse(process.argv);
 const options = program.opts();
-main(options);
+main({
+  pagesDir: path.resolve(options.pagesDir),
+  baseDir: path.resolve(options.baseDir),
+  distDir: path.resolve(options.distDir),
+  moduleNameSpace: options.moduleNameSpace,
+});
 
 if (options.watch) {
   const chokidar = require('chokidar');
@@ -21,6 +26,11 @@ if (options.watch) {
   });
   watcher.on('change', (path) => {
     console.log(`File ${path} has been changed`);
-    main(options);
+    main({
+      pagesDir: path.resolve(options.pagesDir),
+      baseDir: path.resolve(options.baseDir),
+      distDir: path.resolve(options.distDir),
+      moduleNameSpace: options.moduleNameSpace,
+    });
   });
 }
