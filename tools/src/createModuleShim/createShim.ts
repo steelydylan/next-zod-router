@@ -5,7 +5,7 @@ import { factory } from "typescript";
 //   "${apiPath}": ${method}Handler;
 // }
 //
-export const createShim = (method: string, apiPath: string, shimName: string) =>
+export const createShim = (method: string, apiPath: string, shimName: string, variableName: string) =>
   factory.createInterfaceDeclaration(
     undefined,
     // undefined,
@@ -18,7 +18,7 @@ export const createShim = (method: string, apiPath: string, shimName: string) =>
         factory.createStringLiteral(apiPath),
         undefined,
         factory.createTypeReferenceNode(
-          factory.createIdentifier(method + "Handler"),
+          factory.createIdentifier(variableName + method + "Handler"),
           undefined
         ),
       ),

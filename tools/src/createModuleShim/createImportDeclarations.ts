@@ -5,7 +5,8 @@ import { factory } from "typescript";
 //
 export const createImportDeclarations = (
   methods: string[],
-  importPath: string
+  importPath: string,
+  variableName: string,
 ) =>
   factory.createImportDeclaration(
     undefined,
@@ -17,8 +18,8 @@ export const createImportDeclarations = (
         methods.map((method) =>
           factory.createImportSpecifier(
             false,
-            undefined,
-            factory.createIdentifier(method + "Handler")
+            factory.createIdentifier(method + "Handler"),
+            factory.createIdentifier(variableName + method + "Handler")
           )
         )
       )

@@ -7,6 +7,7 @@ export type FileInfo = {
   methodTypes: string[];
   importPath: string;
   apiPath: string;
+  variableName: string;
 };
 
 export type Config = {

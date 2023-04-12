@@ -1,11 +1,11 @@
-import { createModuleShim } from "./createModuleShim";
 import * as ts from "typescript";
 import { emitFile } from "./emitFile";
 import { printList } from "./printList";
 import type { FileInfo } from "./types";
 import { factory } from "typescript";
 import path from "path";
-import { createEmptyShim } from "./createModuleShim/createShim";
+import { createEmptyShim, createShim } from "./createModuleShim/createShim";
+import { createImportDeclarations } from "./createModuleShim/createImportDeclarations";
 
 export function emitModulesShim(
   fileInfos: FileInfo[],
@@ -18,42 +18,28 @@ export function emitModulesShim(
     path.resolve(distDir, 'index.d.ts'),
     printList([
       ...fileInfos.map((info) => {
-        const pathname = info.distFileName === 'index.d.ts' ? `.${info.apiPath}/index.d.ts` : `.${info.apiPath}.d.ts`;
-        return factory.createTypeReferenceNode(`/// <reference path="${pathname}" />`, undefined)
+        return createImportDeclarations(
+          info.methodTypes,
+          info.importPath.replace(/\.ts(x)?$/, ''),
+          info.variableName,
+        )
       }),
       factory.createModuleDeclaration(
-        // undefined,
         [factory.createModifier(ts.SyntaxKind.DeclareKeyword)],
         factory.createStringLiteral(moduleNameSpace),
         factory.createModuleBlock([
           ...methods.map((method) => createEmptyShim(method, "Query"))
         ])
       ),
+      ...fileInfos.map((info) => {
+        return factory.createModuleDeclaration(
+          [factory.createModifier(ts.SyntaxKind.DeclareKeyword)],
+          factory.createStringLiteral(moduleNameSpace),
+          factory.createModuleBlock([
+            ...info.methodTypes.map((method) => createShim(method, info.apiPath, "Query", info.variableName))
+          ])
+        )
+      }),
     ])
   )
-  fileInfos.map((info) => {
-    emitFile(
-      info.distDir,
-      info.distPath,
-      printList(
-        createModuleShim({
-          methods: info.methodTypes,
-          apiPath: info.apiPath,
-          importPath: info.importPath,
-          moduleNameSpace,
-        })
-      )
-    );
-  });
 }
-
-export const createImportDeclarations = (
-  importPath: string
-) =>
-  factory.createImportDeclaration(
-    undefined,
-    // undefined,
-    undefined,
-    factory.createStringLiteral(importPath),
-    undefined
-  );
