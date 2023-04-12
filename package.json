@@ -1,5 +1,5 @@
 {
-  "version": "0.0.26",
+  "version": "0.0.27",
   "name": "next-typed-connect",
   "packageManager": "yarn@3.4.1",
   "bin": "./tools/index.js",

@@ -16,10 +16,9 @@ export function main(config?: Config) {
   if (!fs.existsSync(distDir)) {
     fs.mkdirSync(distDir);
   }
-  if (fs.existsSync(`${distDir}/index.d.ts`)) {
-    rimraf.sync(`${distDir}/index.d.ts`);
+  if (!fs.existsSync(distDir + "/package.json")) {
+    fs.writeFileSync(`${distDir}/package.json`, JSON.stringify(pkg, null, 2));
   }
-  fs.writeFileSync(`${distDir}/package.json`, JSON.stringify(pkg, null, 2));
   const apiDir = pagesDir + "/api";
   const program = createProgram(baseDir);
   const fileInfos = program
