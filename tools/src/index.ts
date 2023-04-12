@@ -13,8 +13,12 @@ export function main(config?: Config) {
     version: "1.0.0",
     types: "index.d.ts"
   }
-  rimraf.sync(distDir);
-  fs.mkdirSync(distDir);
+  if (!fs.existsSync(distDir)) {
+    fs.mkdirSync(distDir);
+  }
+  if (fs.existsSync(`${distDir}/index.d.ts`)) {
+    rimraf.sync(`${distDir}/index.d.ts`);
+  }
   fs.writeFileSync(`${distDir}/package.json`, JSON.stringify(pkg, null, 2));
   const apiDir = pagesDir + "/api";
   const program = createProgram(baseDir);

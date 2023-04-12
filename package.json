@@ -1,14 +1,12 @@
 {
-  "version": "0.0.25",
+  "version": "0.0.26",
   "name": "next-typed-connect",
   "packageManager": "yarn@3.4.1",
   "bin": "./tools/index.js",
   "scripts": {
     "build": "rimraf ./lib && yarn gen:apitype && tsc",
     "build:tool": "npm run gen:apitype:clean && tsc -p ./tools/tsconfig.json",
-    "gen:apitype": "npm run gen:apitype:clean && npm run gen:apitype:build",
-    "gen:apitype:build": "ts-node ./tools/src/test.ts --pagesDir=tests/pages --baseDir=tests",
-    "gen:apitype:clean": "rimraf ./node_modules/.next-typed-connect"
+    "gen:apitype": "ts-node ./tools/src/test.ts --pagesDir=tests/pages --baseDir=tests"
   },
   "types": "lib/index.d.ts",
   "main": "lib/index.js",
