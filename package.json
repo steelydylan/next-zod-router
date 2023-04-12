@@ -5,7 +5,7 @@
   "bin": "./tools/index.js",
   "scripts": {
     "build": "rimraf ./lib && yarn gen:apitype && tsc",
-    "build:tool": "npm run gen:apitype:clean && tsc -p ./tools/tsconfig.json",
+    "build:tool": "tsc -p ./tools/tsconfig.json",
     "gen:apitype": "ts-node ./tools/src/test.ts --pagesDir=tests/pages --baseDir=tests"
   },
   "types": "lib/index.d.ts",
