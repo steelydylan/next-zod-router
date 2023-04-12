@@ -19,6 +19,9 @@ But I couldn't find a library that met my needs, so I created this library.
 
 ![](./screenshot.png)
 
+## Demo
+
+https://stackblitz.com/edit/next-typescript-32qrbx?embed=1&file=pages/index.tsx&file=pages/api/sample/[id].ts&hideNavigation=1&view=editor
 
 ## Usage
 
