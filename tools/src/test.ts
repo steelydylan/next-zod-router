@@ -24,9 +24,11 @@ if (options.watch) {
     ignored: /(^|[\/\\])\../,
     persistent: true
   });
-  watcher.on('change', (path: string) => {
+  watcher.on('change', async (path: string) => {
     console.log(`File ${path} has been changed`);
-    main(config);
+    watcher.unwatch(options.pagesDir);
+    await main(config);
+    watcher.add(options.pagesDir);
   });
 } else {
   main(config);

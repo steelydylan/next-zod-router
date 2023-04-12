@@ -6,7 +6,7 @@ import * as rimraf from 'rimraf';
 import fs from 'fs';
 import type { Config } from "./types";
 
-export function main(config?: Config) {
+export async function main(config?: Config) {
   const { pagesDir, baseDir, distDir, moduleNameSpace } = Object.assign({}, defaltConfig, config);
   const pkg = {
     name: ".next-typed-connect",

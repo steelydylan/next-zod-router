@@ -6,6 +6,7 @@ const postValidation = {
   body: z.object({
     foo: z.string(),
     fuga: z.string().optional(),
+    bar: z.string().optional(),
   }),
   query: z.object({
     bar: z.string().optional(),
