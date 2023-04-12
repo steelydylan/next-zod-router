@@ -20,7 +20,7 @@ export function emitModulesShim(
       ...fileInfos.map((info) => {
         return createImportDeclarations(
           info.methodTypes,
-          info.importPath.replace(/\.ts(x)?$/, ''),
+          info.importPath,
           info.variableName,
         )
       }),

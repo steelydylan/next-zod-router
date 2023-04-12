@@ -24,6 +24,6 @@ export function main(config?: Config) {
   const fileInfos = program
     .getRootFileNames()
     .filter((fileName) => fileName.match(apiDir))
-    .map(mapFileInfo(apiDir, distDir + "/api", pagesDir, program));
+    .map(mapFileInfo(distDir, pagesDir, program));
   emitModulesShim(fileInfos, moduleNameSpace, distDir);
 }

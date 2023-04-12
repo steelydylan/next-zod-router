@@ -1,4 +1,5 @@
 import * as ts from "typescript";
+import path from "path";
 import type { FileInfo } from "./types";
 
 const targetAliases = [
@@ -8,6 +9,7 @@ const targetAliases = [
   "PatchHandler",
   "DeleteHandler",
 ];
+
 function getMethodTypes(sourceFile?: ts.SourceFile) {
   const buf: string[] = [];
   if (sourceFile) {
@@ -47,31 +49,26 @@ function convertToValidVariableName(input: string): string {
 }
 
 export function mapFileInfo(
-  src: string,
   dist: string,
   pagesDir: string,
   program: ts.Program
 ) {
   return (filePath: string): FileInfo => {
     const srcPath = filePath;
-    const distArr = filePath.replace(src, dist).split("/");
-    const distFileName = distArr[distArr.length - 1].replace(".ts", ".d.ts");
-    const distDir = distArr.splice(0, distArr.length - 1).join("/");
-    const distPath = `${distDir}/${distFileName}`;
     const sourceFile = program.getSourceFile(srcPath);
-    const importPath = filePath.replace(/.ts[x]/, "");
+    const importPath = path.relative(dist, filePath)
+      .replace(".ts", "")
+      .replace(".tsx", "");
     const apiPath = filePath
       .replace(pagesDir, "")
       .replace("/index", "")
       .slice(0, -3);
+
     const methodTypes = getMethodTypes(sourceFile);
     const variableName = convertToValidVariableName(apiPath);
 
     return {
       srcPath,
-      distPath,
-      distFileName,
-      distDir,
       filePath,
       methodTypes,
       importPath,
