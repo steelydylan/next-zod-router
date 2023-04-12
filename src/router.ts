@@ -1,9 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { z } from 'zod' ;
 
-type RequestHandler = (req: NextApiRequest, res: NextApiResponse) => void;
+type NextApiRequestFix = Omit<NextApiRequest, "body" | "query"> & { body: any; query: any; };
 
-type ErrorHandler = (err: ApiError, req: NextApiRequest, res: NextApiResponse) => void;
+type RequestHandler = (req: NextApiRequestFix, res: NextApiResponse) => void;
+
+type ErrorHandler = (err: ApiError, req: NextApiRequestFix, res: NextApiResponse) => void;
 
 type ApiZodSchema = {
   body?: z.ZodSchema<any>
@@ -26,19 +28,14 @@ export type ApiHandler<T extends ApiZodSchema> = {
   res:  T["res"] extends z.ZodSchema<any> ? z.infer<T["res"]>: never;
 }
 
-class Router<
-GetHandler extends RequestHandler, 
-PostHandler extends RequestHandler, 
-PutHandler extends RequestHandler, 
-DeleteHandler extends RequestHandler, 
-PatchHandler extends RequestHandler> {
+class Router {
   handlers: {
     use: RequestHandler[];
-    get: GetHandler[];
-    post: PostHandler[];
-    put: PutHandler[];
-    delete: DeleteHandler[];
-    patch: PatchHandler[];
+    get: RequestHandler[];
+    post: RequestHandler[];
+    put: RequestHandler[];
+    delete: RequestHandler[];
+    patch: RequestHandler[];
     error: ErrorHandler
   };
 
@@ -60,23 +57,23 @@ PatchHandler extends RequestHandler> {
     this.handlers.use.push(...handlers);
     return this;
   }
-  get<T extends GetHandler>(...handlers: T[]) {
+  get<T extends RequestHandler>(...handlers: T[]) {
     this.handlers.get.push(...handlers);
     return this;
   }
-  post<T extends PostHandler>(...handlers: T[]) {
+  post<T extends RequestHandler>(...handlers: T[]) {
     this.handlers.post.push(...handlers);
     return this;
   }
-  put<T extends PutHandler>(...handlers: T[]) {
+  put<T extends RequestHandler>(...handlers: T[]) {
     this.handlers.put.push(...handlers);
     return this;
   }
-  delete<T extends DeleteHandler>(...handlers: T[]) {
+  delete<T extends RequestHandler>(...handlers: T[]) {
     this.handlers.delete.push(...handlers);
     return this;
   }
-  patch<T extends PatchHandler>(...handlers: T[]) {
+  patch<T extends RequestHandler>(...handlers: T[]) {
     this.handlers.patch.push(...handlers);
     return this;
   }

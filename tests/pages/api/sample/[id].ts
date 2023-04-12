@@ -3,7 +3,7 @@ import { z } from "zod";
 
 const getValidation = {
   query: z.object({
-    id: z.string().optional(),
+    id: z.string(),
   }),
   res: z.object({
     message: z.string(),
