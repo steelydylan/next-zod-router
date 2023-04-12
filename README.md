@@ -15,9 +15,6 @@ But I couldn't find a library that met my needs, so I created this library.
 - Type definition file generation
 - Middleware support
 
-## Screenshots
-
-![](./screenshot.png)
 
 ## Demo
 
