@@ -34,6 +34,9 @@ function buildQuery(url: string, query?: Record<string, string>) {
   if (!query) {
     return url;
   }
+  if (Object.keys(query).length === 0) {
+    return url;
+  }
   const queryString = qs.stringify(query);
   return `${url}?${queryString}`;
 }

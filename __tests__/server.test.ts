@@ -2,7 +2,7 @@ import { expect, test, describe } from 'vitest'
 import httpMocks from 'node-mocks-http'
 import cors from 'cors'
 import { z } from 'zod'
-import { createRouter, validate, createError, client } from '../src'
+import { createRouter, validate, createError } from '../src'
 
 describe('router', () => {
   test('get', async () => {
