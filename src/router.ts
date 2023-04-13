@@ -83,9 +83,15 @@ class Router {
   }
   private async dispatch(handlers: RequestHandler[], req: NextApiRequest, res: NextApiResponse) {
     try {
+      if (handlers.length === 0) {
+        throw createError(404, "Not Found");
+      }
       for (const handler of handlers) {
         if (res.writableEnded) break;
         await handler(req, res);
+      }
+      if (!res.writableEnded) {
+        throw createError(404, "Not Found");
       }
     } catch (e) {
       if (e instanceof ApiError) {
@@ -117,6 +123,7 @@ class Router {
           break;
         default:
           res.status(405).json({ message: "Method not allowed" });
+          break;
       }
     }
   }
