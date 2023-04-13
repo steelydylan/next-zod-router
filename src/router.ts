@@ -81,16 +81,16 @@ class Router {
     this.handlers.error = handler;
     return this;
   }
-  private async dispatch(handlers: RequestHandler[], req: NextApiRequest, res: NextApiResponse) {
+  private async dispatch(handlers: RequestHandler[], req: NextApiRequest, res: NextApiResponse, use = false) {
     try {
-      if (handlers.length === 0) {
+      if (handlers.length === 0 && !use) {
         throw createError(404, "Not Found");
       }
       for (const handler of handlers) {
         if (res.writableEnded) break;
         await handler(req, res);
       }
-      if (!res.writableEnded) {
+      if (!res.writableEnded && !use) {
         throw createError(404, "Not Found");
       }
     } catch (e) {
@@ -104,7 +104,7 @@ class Router {
   }
   public run() {
     return async (req: NextApiRequest, res: NextApiResponse) => {
-      await this.dispatch(this.handlers.use, req, res);
+      await this.dispatch(this.handlers.use, req, res, true);
       switch (req.method) {
         case "GET":
           await this.dispatch(this.handlers.get, req, res)
