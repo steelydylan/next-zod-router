@@ -3,8 +3,13 @@ import { client } from '../src'
 
 // @ts-ignore
 global.fetch = vi.fn((url, options) => {
+  if (url.toString().startsWith('/api/sample')) {
+    return Promise.resolve({
+      json: () => Promise.resolve({ message: "hello" }),
+    })
+  }
   return Promise.resolve({
-    json: () => Promise.resolve({}),
+    json: () => Promise.reject(new Error('not found')),
   })
 })
 
@@ -30,6 +35,18 @@ describe('client', () => {
         'Content-Type': 'application/json',
       },
     })
+  })
+  test('get request body', async () => {
+    const { data } = await client.get('/api/sample/[id]', {
+      query: { id: '1' },
+    })
+    expect(data).toEqual({ message: 'hello' })
+  })
+  test('get request body error', async () => {
+    const { error } = await client.get('/api/bad/[id]', {
+      query: { id: '1' },
+    })
+    expect(error).toEqual(new Error('not found'))
   })
   test('post', async () => {
     client.post('/api/sample', {
