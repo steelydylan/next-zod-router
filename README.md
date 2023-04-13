@@ -73,7 +73,7 @@ const router = createRouter()
 router
   .use((req, res, next) => {
     console.log("middleware");
-    next()
+    return next()
   })
   .post(
     validate(postValidation),
