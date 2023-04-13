@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rimraf ./lib && yarn gen:apitype && tsc",
     "build:tool": "tsc -p ./tools/tsconfig.json",
-    "gen:apitype": "ts-node ./tools/src/command.ts --pagesDir=tests/pages --baseDir=tests"
+    "gen:apitype": "ts-node ./tools/src/command.ts --pagesDir=example/pages --baseDir=tests"
   },
   "types": "lib/index.d.ts",
   "main": "lib/index.js",
