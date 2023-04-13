@@ -71,8 +71,9 @@ const getValidation = {
 const router = createRouter()
 
 router
-  .use((req, res) => {
+  .use((req, res, next) => {
     console.log("middleware");
+    next()
   })
   .post(
     validate(postValidation),
