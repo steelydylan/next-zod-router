@@ -1,9 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { z } from 'zod' ;
+import { ApiError, createError } from "./error";
+import { HandlerWithNext, NextApiRequestFix } from "./type";
 
-type NextApiRequestFix = Omit<NextApiRequest, "body" | "query"> & { body: any; query: any; };
-
-type RequestHandler = (req: NextApiRequestFix, res: NextApiResponse) => void;
+type HandlerObject = {
+  handler: HandlerWithNext;
+  middleware?: boolean;
+  method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "OPTIONS" | "HEAD";
+};
 
 type ErrorHandler = (err: ApiError, req: NextApiRequestFix, res: NextApiResponse) => void;
 
@@ -14,14 +18,6 @@ type ApiZodSchema = {
   params?: z.ZodSchema<any>
 }
 
-export class ApiError extends Error {
-  statusCode: number;
-  constructor(message: string, statusCode: number) {
-    super(message);
-    this.statusCode = statusCode;
-  }
-}
-
 export type ApiHandler<T extends ApiZodSchema> = {
   body: T["body"] extends z.ZodSchema<any> ? z.infer<T["body"]> : never;
   query: T["query"] extends z.ZodSchema<any> ? z.infer<T["query"]> : never;
@@ -30,108 +26,80 @@ export type ApiHandler<T extends ApiZodSchema> = {
 
 class Router {
   handlers: {
-    use: RequestHandler[];
-    get: RequestHandler[];
-    post: RequestHandler[];
-    put: RequestHandler[];
-    delete: RequestHandler[];
-    patch: RequestHandler[];
+    method: HandlerObject[]
     error: ErrorHandler
   };
 
   constructor() {
     this.handlers = {
-      use: [],
-      get: [],
-      post: [],
-      put: [],
-      delete: [],
-      patch: [],
+      method: [],
       error: (e, req, res) => {
         res.status(e.statusCode).json({ message: e.message });
       },
     };
   }
 
-  use<T extends RequestHandler>(...handlers: T[]) {
-    this.handlers.use.push(...handlers);
+  use<T extends HandlerWithNext>(...handlers: T[]) {
+    this.handlers.method.push(...handlers.map((handler) => ({ handler, middleware: true })));
     return this;
   }
-  get<T extends RequestHandler>(...handlers: T[]) {
-    this.handlers.get.push(...handlers);
+
+  get<T extends HandlerWithNext>(...handlers: T[]) {
+    this.handlers.method.push(...handlers.map((handler) => ({ handler, method: "GET" as "GET" })));
     return this;
   }
-  post<T extends RequestHandler>(...handlers: T[]) {
-    this.handlers.post.push(...handlers);
+
+  post<T extends HandlerWithNext>(...handlers: T[]) {
+    this.handlers.method.push(...handlers.map((handler) => ({ handler, method: "POST" as "POST" })));
     return this;
   }
-  put<T extends RequestHandler>(...handlers: T[]) {
-    this.handlers.put.push(...handlers);
+
+  put<T extends HandlerWithNext>(...handlers: T[]) {
+    this.handlers.method.push(...handlers.map((handler) => ({ handler, method: "PUT" as "PUT" })));
     return this;
   }
-  delete<T extends RequestHandler>(...handlers: T[]) {
-    this.handlers.delete.push(...handlers);
+
+  delete<T extends HandlerWithNext>(...handlers: T[]) {
+    this.handlers.method.push(...handlers.map((handler) => ({ handler, method: "DELETE" as "DELETE" })));
     return this;
   }
-  patch<T extends RequestHandler>(...handlers: T[]) {
-    this.handlers.patch.push(...handlers);
+
+  patch<T extends HandlerWithNext>(...handlers: T[]) {
+    this.handlers.method.push(...handlers.map((handler) => ({ handler, method: "PATCH" as "PATCH" })));
     return this;
   }
+
   onError<T extends ErrorHandler>(handler: T) {
     this.handlers.error = handler;
     return this;
   }
-  private async dispatch(handlers: RequestHandler[], req: NextApiRequest, res: NextApiResponse) {
-    try {
-      if (handlers.length === 0) {
-        throw createError(404, "Not Found");
-      }
-      for (const handler of handlers) {
-        if (res.writableEnded) break;
-        await handler(req, res);
-      }
-      if (!res.writableEnded) {
-        throw createError(404, "Not Found");
-      }
-    } catch (e) {
-      if (e instanceof ApiError) {
-        this.handlers.error(e, req, res);
-      } else {
-        const error = createError(500, "Internal Server Error");
-        this.handlers.error(error, req, res);
-      }
-    }
-  }
-  public run() {
-    return async (req: NextApiRequest, res: NextApiResponse) => {
-      await this.dispatch(this.handlers.use, req, res);
-      switch (req.method) {
-        case "GET":
-          await this.dispatch(this.handlers.get, req, res)
-          break;
-        case "POST":
-          await this.dispatch(this.handlers.post, req, res)
-          break;
-        case "PUT":
-          await this.dispatch(this.handlers.put, req, res)
-          break;
-        case "DELETE":
-          await this.dispatch(this.handlers.delete, req, res)
-          break;
-        case "PATCH":
-          await this.dispatch(this.handlers.patch, req, res)
-          break;
-        default:
-          res.status(405).json({ message: "Method not allowed" });
-          break;
-      }
-    }
-  }
-}
 
-export function createError(statusCode: number, message: string) {
-  const error = new ApiError(message, statusCode);
-  return error;
+  private async execute(req: NextApiRequestFix, res: NextApiResponse, method: HandlerObject["method"]) {
+    const handlers = this.handlers.method.filter((h) => h.method === method || h.middleware);
+    let i = 0;
+    const next = async () => {
+      const handler = handlers[i++];
+      if (handler) {
+        await handler.handler(req, res, next);
+      }
+    };
+    await next();
+  }
+
+  public run() {
+    return async (req: NextApiRequestFix, res: NextApiResponse) => {
+      try {
+        await this.execute(req, res, req.method as HandlerObject["method"]);
+      } catch (e) {
+        if (e instanceof ApiError) {
+          this.handlers.error(e, req, res);
+        } else {
+          const error = createError(500, "Internal Server Error");
+          this.handlers.error(error, req, res);
+        }
+      }
+    };
+  }
 }
 
 export function createRouter() {
