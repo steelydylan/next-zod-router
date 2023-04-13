@@ -209,6 +209,32 @@ describe('middleware', () => {
       'access-control-allow-origin': '*',
     })
   })
+
+  test('time start end', async () => {
+    const router = createRouter()
+    const arr: string[] = []
+    const handler = router
+      .use(async (req, res, next) => {
+        arr.push('start')
+        if (next) {
+          await next()
+        }
+        arr.push('end')
+      })
+      .get((req, res) => {
+        arr.push('get')
+        res.status(200).json({ message: 'ok' })
+      })
+      .run()
+    const req = httpMocks.createRequest({
+      method: 'GET',
+      url: '/api/sample',
+    })
+    const res = httpMocks.createResponse()
+    await handler(req, res)
+    expect(res._getStatusCode()).toBe(200)
+    expect(arr).toEqual(['start', 'get', 'end'])
+  })
 })
 
 describe('error', () => {
@@ -243,7 +269,4 @@ describe('error', () => {
     expect(res._getStatusCode()).toBe(400)
     expect(res._getJSONData()).toEqual({ message: 'error' })
   })
-})
-
-describe('client', () => {
 })
