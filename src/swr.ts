@@ -7,7 +7,7 @@ type GetOptions<T extends keyof GetQuery> = {
   requestInit?: Omit<RequestInit, "body">;
 }
 
-export function useSWRClient<T extends keyof GetQuery>(key: T, options?: GetOptions<T>) {
+export function useClientSWR<T extends keyof GetQuery>(key: T, options?: GetOptions<T>) {
   const { data, ...rest } = useSWR([key, 'get', options], () => client.get(key, options));
   return {
     ...rest,
