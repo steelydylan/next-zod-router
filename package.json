@@ -21,6 +21,11 @@
       "import": "./lib/swr.js",
       "require": "./lib/swr.js",
       "types": "./lib/swr.d.ts"
+    },
+    "./react-query": {
+      "import": "./lib/react-query.js",
+      "require": "./lib/react-query.js",
+      "types": "./lib/react-query.d.ts"
     }
   },
   "devDependencies": {
