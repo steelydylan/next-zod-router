@@ -6,8 +6,8 @@ const path = require('path');
 program
   .option('-p, --pagesDir <dir>', '--pagesDir <path>', "pages")
   .option('-b, --baseDir <dir>', '--baseDir <path>', ".")
-  .option('-d, --distDir <dir>', '--distDir <path>', "node_modules/.next-typed-connect")
-  .option('-m, --moduleNameSpace <dir>', '--moduleNameSpace <path>', ".next-typed-connect")
+  .option('-d, --distDir <dir>', '--distDir <path>', "node_modules/.next-zod-router")
+  .option('-m, --moduleNameSpace <dir>', '--moduleNameSpace <path>', ".next-zod-router")
   .option('-w, --watch', 'watch mode');
 program.parse(process.argv);
 const options = program.opts();

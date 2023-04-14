@@ -9,7 +9,7 @@ import type { Config } from "./types";
 export async function main(config?: Config) {
   const { pagesDir, baseDir, distDir, moduleNameSpace } = Object.assign({}, defaltConfig, config);
   const pkg = {
-    name: ".next-typed-connect",
+    name: ".next-zod-router",
     version: "1.0.0",
     types: "index.d.ts"
   }

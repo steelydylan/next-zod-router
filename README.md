@@ -1,6 +1,7 @@
-# next-typed-connect
+# next-zod-router
 
-A library for creating type-safe APIs in next.js.
+A library for simple API routing in Next.js
+while leveraging Zod and Typescript to create typesafe routes and middlewares with built in validation.
 
 ## Motivation
 
@@ -11,10 +12,10 @@ But I couldn't find a library that met my needs, so I created this library.
 
 - Type-safe API routing
 - Type-safe API call
-- error handling
-- Type definition file generation
+- Validation using zod
+- Error handling
+- Type definition file generation for client-side use
 - Middleware support
-
 
 ## Demo
 
@@ -27,10 +28,10 @@ https://stackblitz.com/edit/next-typescript-32qrbx?embed=1&file=pages/index.tsx&
 
 ```bash
 ## npm
-npm install next-typed-connect
+npm install next-zod-router
 
 ## yarn
-yarn add next-typed-connect
+yarn add next-zod-router
 ```
 
 ### Server-side
@@ -42,7 +43,7 @@ yarn add next-typed-connect
 
 ```ts
 // pages/api/sample.ts
-import { ApiHandler, createRouter, validate } from "next-typed-connect";
+import { ApiHandler, createRouter, validate } from "next-zod-router";
 import { z } from "zod";
 
 /* Schema definition using zod */
@@ -158,7 +159,7 @@ router
 
 ```ts
 // client.ts
-import { client } from "next-typed-connect";
+import { client } from "next-zod-router";
 
 client.get("/api/[id]", {
   query: {
@@ -174,10 +175,10 @@ client.get("/api/[id]", {
 
 ```bash
 ## npm
-npx next-typed-connect
+npx next-zod-router
 
 ## yarn
-yarn next-typed-connect
+yarn next-zod-router
 ```
 
 Adding a script to your package.json is convenient.
@@ -185,7 +186,7 @@ Adding a script to your package.json is convenient.
 ```json
 {
   "scripts": {
-    "apigen": "next-typed-connect"
+    "apigen": "next-zod-router"
   }
 }
 ```
@@ -197,7 +198,7 @@ npm run apigen
 ### Client-side
 
 ```ts
-import { client } from "next-typed-connect";
+import { client } from "next-zod-router";
 
 // Type-safe API call
 const { data, error } = await client.post("/api/sample", {
@@ -215,15 +216,15 @@ const { data, error } = await client.post("/api/sample", {
 The default pages directory is `pages`, so if you want to change it, you can use the `--pagesDir` option.
 
 ```bash
-next-typed-connect --pagesDir=src/pages
+next-zod-router --pagesDir=src/pages
 ```
 
 | Option | Description | Default value |
 | --- | --- | --- |
 | --pagesDir | Pages directory | pages |
 | --baseDir | Project directory | . |
-| --distDir | Type definition file output destination	 | node_modules/.next-typed-connect |
-| --moduleNameSpace | Type definition file module name | .next-typed-connect |
+| --distDir | Type definition file output destination	 | node_modules/.next-zod-router |
+| --moduleNameSpace | Type definition file module name | .next-zod-router |
 
 ## Tips
 

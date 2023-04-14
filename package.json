@@ -1,13 +1,13 @@
 {
   "version": "0.0.34",
-  "name": "next-typed-connect",
+  "name": "next-zod-router",
   "packageManager": "yarn@3.4.1",
   "bin": "./tools/index.js",
   "scripts": {
     "test": "vitest run",
     "build": "rimraf ./lib && yarn gen:apitype && tsc",
     "build:tool": "tsc -p ./tools/tsconfig.json",
-    "gen:apitype": "ts-node ./tools/src/command.ts --pagesDir=example/pages --baseDir=tests"
+    "gen:apitype": "ts-node ./tools/src/command.ts --pagesDir=example/pages --baseDir=example"
   },
   "types": "lib/index.d.ts",
   "main": "lib/index.js",

@@ -1,4 +1,4 @@
-import { DeleteQuery, PatchQuery, GetQuery, PostQuery, PutQuery } from ".next-typed-connect";
+import { DeleteQuery, PatchQuery, GetQuery, PostQuery, PutQuery } from ".next-zod-router";
 import qs from "qs";
 
 const defaultHeaders = {
