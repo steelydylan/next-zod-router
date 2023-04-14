@@ -22,7 +22,7 @@ jobs:
           node-version: 16.x
           registry-url: 'https://registry.npmjs.org'
       - name: install
-        run: yarn --frozen-lockfile
+        run: yarn
       # まだtagがないバージョンなら、Git Tagをpushする
       - name: package-version
         run: node -p -e '`PACKAGE_VERSION=${require("./package.json").version}`' >> $GITHUB_ENV
@@ -46,7 +46,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: build lib
-        run: npm run build
+        run: yarn build
       - name: publish to npm
         run: npm publish
         env:
