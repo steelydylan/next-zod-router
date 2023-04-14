@@ -1,5 +1,5 @@
 {
-  "version": "0.0.36",
+  "version": "0.0.37",
   "name": "next-zod-router",
   "packageManager": "yarn@3.4.1",
   "bin": "./tools/index.js",
@@ -26,6 +26,16 @@
       "import": "./lib/react-query.js",
       "require": "./lib/react-query.js",
       "types": "./lib/react-query.d.ts"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "swr": [
+        "./lib/swr.d.ts"
+      ],
+      "react-query": [
+        "./lib/react-query.d.ts"
+      ]
     }
   },
   "devDependencies": {
