@@ -26,7 +26,7 @@ describe('client', () => {
     })
   })
   test('get without brackets', async () => {
-    client.get('/api/sample/', {
+    client.get('/api/sample', {
       query: { id: '1', foo: 'bar' },
     })
     expect(fetch).toBeCalledWith('/api/sample/?id=1&foo=bar', {
