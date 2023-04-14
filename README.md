@@ -216,6 +216,8 @@ router
 
 ### Middleware
 
+express-like middleware is supported.
+
 ```ts
 // pages/api/sample.ts
 import cors from "cors";
