@@ -229,8 +229,11 @@ next-zod-router --pagesDir=src/pages
 | --baseDir | Project directory | . |
 | --distDir | Type definition file output destination	 | node_modules/.next-zod-router |
 | --moduleNameSpace | Type definition file module name | .next-zod-router |
+| --watch | Watch mode | false |
 
 ## Tips
+
+### Add session property to Request type
 
 If you want to add session property to Request type, you can use the following code.
 
@@ -241,6 +244,20 @@ import { IncomingMessage } from "http";
 declare module 'next' {
   export interface NextApiRequest extends IncomingMessage {
     session: Session
+  }
+}
+```
+
+### Next.js development
+
+When developing with Next.js, you can use the following code to generate type definition files automatically.
+
+```json
+{
+  "scripts": {
+    "dev": "npm-run-all -p dev:*",
+    "dev:next": "next dev",
+    "dev:apigen": "next-zod-router -w"
   }
 }
 ```
