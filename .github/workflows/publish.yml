@@ -45,6 +45,8 @@ jobs:
           tag: ${{ steps.package-version.outputs.current-version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: test
+        run: yarn test
       - name: build lib
         run: yarn build && yarn build:tool
       - name: publish to npm
