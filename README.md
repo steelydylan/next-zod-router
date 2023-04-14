@@ -214,6 +214,29 @@ router
   })
 ```
 
+### Middleware
+
+```ts
+// pages/api/sample.ts
+import cors from "cors";
+import { createRouter, validate } from "next-zod-router";
+import { z } from "zod";
+
+const postValidation = {
+  res: z.object({
+    message: z.string(),
+  }),
+}
+
+router
+  .use(cors())
+  .post(
+    validate(postValidation),
+    (req, res) => {
+      res.status(200).json({ message: "ok" });
+    })
+```
+
 
 ## Command options
 
