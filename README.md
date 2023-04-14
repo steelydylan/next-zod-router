@@ -100,76 +100,6 @@ export type GetHandler = ApiHandler<typeof getValidation>
 export default router.run()
 ```
 
-### Error handling
-
-
-#### throw error
-
-```ts
-// pages/api/sample.ts
-router
-  .post(
-    validate(postValidation),
-    (req, res) => {
-      const session = getSession(req)
-      if (!session) {
-        throw createError(401, "Unauthorized")
-      }
-      res.status(200).json({ message: "ok" });
-    })
-```
-
-#### custom error handling
-
-```ts
-// pages/api/sample.ts
-
-router
-  .onError((err, req, res) => {
-    // custom error handling
-    res.status(err.statusCode).json({ message: err.message });
-  })
-```
-
-### dynamic routing
-
-#### Server-side
-
-```ts
-// pages/api/[id].ts
-
-const getValidation = {
-  // 👇 for server side validation
-  // 👇 also necessary for client side url construction
-  query: z.object({
-    id: z.string().optional(),
-  }),
-}
-
-router
-  .get(
-    validate(getValidation),
-    (req, res) => {
-      req.query.id;
-      res.status(200).json({ message: "ok" });
-    })
-```
-
-#### Client-side
-
-```ts
-// client.ts
-import { client } from "next-zod-router";
-
-client.get("/api/[id]", {
-  query: {
-    id: "1",
-  },
-})
-
-// url will be /api/1
-```
-
 ### Type generation
 
 
@@ -210,6 +140,80 @@ const { data, error } = await client.post("/api/sample", {
   },
 })
 ```
+
+
+### dynamic routing
+
+#### Server-side
+
+```ts
+// pages/api/[id].ts
+
+const getValidation = {
+  // 👇 for server side validation
+  // 👇 also necessary for client side url construction
+  query: z.object({
+    id: z.string().optional(),
+  }),
+}
+
+router
+  .get(
+    validate(getValidation),
+    (req, res) => {
+      req.query.id;
+      res.status(200).json({ message: "ok" });
+    })
+```
+
+#### Client-side
+
+```ts
+// client.ts
+import { client } from "next-zod-router";
+
+client.get("/api/[id]", {
+  query: {
+    id: "1",
+  },
+})
+
+// url will be /api/1
+```
+
+
+
+### Error handling
+
+
+#### throw error
+
+```ts
+// pages/api/sample.ts
+router
+  .post(
+    validate(postValidation),
+    (req, res) => {
+      const session = getSession(req)
+      if (!session) {
+        throw createError(401, "Unauthorized")
+      }
+      res.status(200).json({ message: "ok" });
+    })
+```
+
+#### custom error handling
+
+```ts
+// pages/api/sample.ts
+
+router
+  .onError((err, req, res) => {
+    // custom error handling
+    res.status(err.statusCode).json({ message: err.message });
+  })
+```
+
 
 ## Command options
 
