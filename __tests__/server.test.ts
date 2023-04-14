@@ -210,7 +210,7 @@ describe('middleware', () => {
     })
   })
 
-  test('time start end', async () => {
+  test('async middleware test', async () => {
     const router = createRouter()
     const arr: string[] = []
     const handler = router
@@ -232,10 +232,40 @@ describe('middleware', () => {
     })
     const res = httpMocks.createResponse()
     await handler(req, res)
+    arr.push('handler')
     expect(res._getStatusCode()).toBe(200)
-    expect(arr).toEqual(['start', 'get', 'end'])
+    expect(arr).toEqual(['start', 'get', 'end', 'handler'])
+  })
+
+  test('sync middleware test', async () => {
+    const router = createRouter()
+    const arr: string[] = []
+    const handler = router
+      .use((req, res, next) => {
+        arr.push('use')
+        if (next) {
+          next()
+        }
+      })
+      .get((req, res) => {
+        arr.push('get')
+        res.status(200).json({ message: 'ok' })
+      })
+      .run()
+    const req = httpMocks.createRequest({
+      method: 'GET',
+      url: '/api/sample',
+    })
+    const res = httpMocks.createResponse()
+    await handler(req, res)
+    arr.push('end')
+
+    expect(res._getStatusCode()).toBe(200)
+    expect(arr).toEqual(['use', 'get', 'end'])
   })
 })
+
+
 
 describe('error', () => {
   test('error', async () => {
