@@ -1,5 +1,5 @@
 {
-  "version": "0.0.37",
+  "version": "0.0.38",
   "name": "next-zod-router",
   "packageManager": "yarn@3.4.1",
   "bin": "./tools/index.js",
@@ -13,18 +13,15 @@
   "main": "lib/index.js",
   "exports": {
     ".": {
-      "import": "./lib/index.js",
-      "require": "./lib/index.js",
+      "default": "./lib/index.js",
       "types": "./lib/index.d.ts"
     },
     "./swr": {
-      "import": "./lib/swr.js",
-      "require": "./lib/swr.js",
+      "default": "./lib/swr.js",
       "types": "./lib/swr.d.ts"
     },
     "./react-query": {
-      "import": "./lib/react-query.js",
-      "require": "./lib/react-query.js",
+      "default": "./lib/react-query.js",
       "types": "./lib/react-query.d.ts"
     }
   },
