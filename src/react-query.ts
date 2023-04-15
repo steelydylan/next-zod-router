@@ -9,7 +9,7 @@ type GetOptions<T extends keyof GetQuery> = {
 }
 
 export function useClientQuery<T extends keyof GetQuery>(key: T, options?: GetOptions<T>) {
-  const { data, ...rest } = useQuery([key, 'get', options], () => client.get(key, options));
+  const { data, ...rest } = useQuery([key, options?.query], () => client.get(key, options));
   return {
     ...rest,
     data: data?.data ?? options?.defaultValue ?? null,
