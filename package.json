@@ -1,5 +1,5 @@
 {
-  "version": "0.0.41",
+  "version": "0.0.42",
   "name": "next-zod-router",
   "packageManager": "yarn@3.4.1",
   "bin": "./tools/index.js",
