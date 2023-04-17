@@ -9,9 +9,11 @@ type GetOptions<T extends keyof GetQuery> = {
 }
 
 export function useClientSWR<T extends keyof GetQuery>(key: T, options?: GetOptions<T>) {
-  const { data, ...rest } = useSWR([key, 'get', options], () => client.get(key, options));
+  const queryKey = [key, options?.query];
+  const { data, ...rest } = useSWR(queryKey, () => client.get(key, options));
   return {
     ...rest,
+    queryKey,
     data: data?.data ?? options?.defaultValue ?? null,
     error: data?.error,
   }
