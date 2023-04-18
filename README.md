@@ -3,6 +3,8 @@
 A library for simple API routing in Next.js
 while leveraging Zod and Typescript to create typesafe routes and middlewares with built in validation.
 
+![](./screenshot.png)
+
 ## Motivation
 
 I wanted to create type-safe APIs in Next.js using zod and also wanted to generate type definition files for client-side use so that I could use intuitive API calls.
