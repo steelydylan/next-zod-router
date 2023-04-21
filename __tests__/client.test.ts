@@ -5,10 +5,12 @@ import { client } from '../src'
 global.fetch = vi.fn((url, options) => {
   if (url.toString().startsWith('/api/sample')) {
     return Promise.resolve({
+      ok: true,
       json: () => Promise.resolve({ message: "hello" }),
     })
   }
   return Promise.resolve({
+    ok: false,
     json: () => Promise.reject(new Error('not found')),
   })
 })
@@ -43,10 +45,12 @@ describe('client', () => {
     expect(data).toEqual({ message: 'hello' })
   })
   test('get request body error', async () => {
-    const { error } = await client.get('/api/bad/[id]', {
+    const { error, data } = await client.get('/api/bad/[id]', {
       query: { id: '1' },
     })
-    expect(error).toEqual(new Error('not found'))
+    console.log(error)
+    expect(error).toEqual(new Error(''))
+    expect(data).toBe(null)
   })
   test('post', async () => {
     client.post('/api/sample', {

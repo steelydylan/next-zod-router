@@ -44,6 +44,7 @@
   "devDependencies": {
     "@types/node": "^18.15.11",
     "cors": "^2.8.5",
+    "msw": "^1.2.1",
     "next": "^13.3.0",
     "react-query": "^3.39.3",
     "swr": "^2.1.3",
