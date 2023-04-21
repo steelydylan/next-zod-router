@@ -81,7 +81,10 @@ export async function postApiData<T extends keyof PostQuery>(
     headers: { ...defaultHeaders, ...requestInit?.headers },
     body: requestBody ? JSON.stringify(requestBody) : undefined
   })
-  .then((res) => res.json())
+  .then((res) => {
+    if (res.ok) return res.json()
+    throw new Error(res.statusText)
+  })
   .then((data) => {
     return {
       data,
@@ -123,7 +126,10 @@ export async function putApiData<T extends keyof PutQuery>(
     headers: { ...defaultHeaders, ...requestInit?.headers },
     body: requestBody ? JSON.stringify(requestBody) : undefined
   })
-  .then((res) => res.json())
+  .then((res) => {
+    if (res.ok) return res.json()
+    throw new Error(res.statusText)
+  })
   .then((data) => {
     return {
       data,
@@ -165,7 +171,10 @@ export async function patchApiData<T extends keyof PatchQuery>(
     headers: { ...defaultHeaders, ...requestInit?.headers },
     body: requestBody ? JSON.stringify(requestBody) : undefined
   })
-  .then((res) => res.json())
+  .then((res) => {
+    if (res.ok) return res.json()
+    throw new Error(res.statusText)
+  })
   .then((data) => {
     return {
       data,
@@ -207,7 +216,10 @@ export async function deleteApiData<T extends keyof DeleteQuery>(
     headers: { ...defaultHeaders, ...requestInit?.headers },
     body: requestBody ? JSON.stringify(requestBody) : undefined
   })
-  .then((res) => res.json())
+  .then((res) => {
+    if (res.ok) return res.json()
+    throw new Error(res.statusText)
+  })
   .then((data) => {
     return {
       data,
@@ -245,7 +257,10 @@ export async function getApiData<T extends keyof GetQuery>(
     method: "GET",
     headers: { ...defaultHeaders, ...requestInit?.headers },
   })
-  .then((res) => res.json())
+  .then((res) => {
+    if (res.ok) return res.json()
+    throw new Error(res.statusText)
+  })
   .then((data) => {
     return {
       data,
