@@ -52,6 +52,11 @@ describe('client', () => {
     expect(error).toEqual(new Error(''))
     expect(data).toBe(null)
   })
+  test("error when query not set", async () => {
+    const { error, data } = await client.get('/api/sample/[id]')
+    expect(error).toEqual(new Error('query must be set'))
+    expect(data).toBe(null)
+  })
   test('post', async () => {
     client.post('/api/sample', {
       body: {

@@ -74,6 +74,13 @@ export async function postApiData<T extends keyof PostQuery>(
     }
   }
   const url = buildUrl(key, query);
+  // if [vars] in url, not fetch
+  if (url.includes("[") && url.includes("]")) {
+    return {
+      data: null,
+      error: new Error("query must be set"),
+    }
+  }
   const requestBody = body || requestInit?.body;
   const res = await fetch(url, {
     ...requestInit,
@@ -119,6 +126,13 @@ export async function putApiData<T extends keyof PutQuery>(
     }
   }
   const url = buildUrl(key, query);
+  // if [vars] in url, not fetch
+  if (url.includes("[") && url.includes("]")) {
+    return {
+      data: null,
+      error: new Error("query must be set"),
+    }
+  }
   const requestBody = body || requestInit?.body;
   const res = await fetch(url, {
     ...requestInit,
@@ -164,6 +178,13 @@ export async function patchApiData<T extends keyof PatchQuery>(
     }
   }
   const url = buildUrl(key, query);
+  // if [vars] in url, not fetch
+  if (url.includes("[") && url.includes("]")) {
+    return {
+      data: null,
+      error: new Error("query must be set"),
+    }
+  }
   const requestBody = body || requestInit?.body;
   const res = await fetch(url, {
     ...requestInit,
@@ -209,6 +230,13 @@ export async function deleteApiData<T extends keyof DeleteQuery>(
     }
   }
   const url = buildUrl(key, query);
+  // if [vars] in url, not fetch
+  if (url.includes("[") && url.includes("]")) {
+    return {
+      data: null,
+      error: new Error("query must be set"),
+    }
+  }
   const requestBody = body || requestInit?.body;
   const res = await fetch(url, {
     ...requestInit,
@@ -252,6 +280,13 @@ export async function getApiData<T extends keyof GetQuery>(
     }
   }
   const url = buildUrl(key, query);
+  // if [vars] in url, not fetch
+  if (url.includes("[") && url.includes("]")) {
+    return {
+      data: null,
+      error: new Error("query must be set"),
+    }
+  }
   const res = await fetch(url, {
     ...requestInit,
     method: "GET",
