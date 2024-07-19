@@ -186,6 +186,18 @@ describe('validation', () => {
     await handler(req, res)
     expect(res._getStatusCode()).toBe(400)
   })
+
+  test('not implemented methods', async () => {
+    const router = createRouter()
+    const handler = router.run()
+    const req = httpMocks.createRequest({
+      method: 'POST',
+      url: '/api/sample',
+    })
+    const res = httpMocks.createResponse()
+    await handler(req, res)
+    expect(res._getStatusCode()).toBe(405)
+  });
 })
 
 describe('middleware', () => {
