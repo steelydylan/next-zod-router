@@ -4,7 +4,7 @@
   "bin": "./tools/index.js",
   "scripts": {
     "test": "vitest run",
-    "build": "rimraf ./lib && npm gen:apitype && tsc",
+    "build": "rimraf ./lib && npm run gen:apitype && tsc",
     "build:tool": "tsc -p ./tools/tsconfig.json",
     "gen:apitype": "ts-node ./tools/src/command.ts --pagesDir=example/pages --baseDir=example"
   },
