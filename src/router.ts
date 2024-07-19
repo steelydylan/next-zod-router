@@ -81,6 +81,8 @@ class Router {
       const handler = handlers[i++];
       if (handler) {
         await handler.handler(req, res, next);
+      } else {
+        throw createError(405, "method Not Found");
       }
     };
     await next();

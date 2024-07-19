@@ -55,6 +55,30 @@ function buildUrl(url: string, query?: Record<string, string>) {
   return finalUrl;
 }
 
+async function handleResponse(url: string, requestInit?: RequestInit) {
+  try {
+    // if [vars] in url, not fetch
+    if (url.includes("[") && url.includes("]")) {
+      throw new Error("query must be set");
+    }
+    const res = await fetch(url, requestInit)
+    const data = await res.json()
+    if (res.ok) { 
+      return {
+        data,
+        error: null,
+      }
+    } else {
+      throw new Error(data);
+    }
+  } catch (err) {
+    return {
+      data: null,
+      error: err,
+    }
+  }
+}
+
 export async function postApiData<T extends keyof PostQuery>(
   key: T,
   {
@@ -74,37 +98,13 @@ export async function postApiData<T extends keyof PostQuery>(
     }
   }
   const url = buildUrl(key, query);
-  // if [vars] in url, not fetch
-  if (url.includes("[") && url.includes("]")) {
-    return {
-      data: null,
-      error: new Error("query must be set"),
-    }
-  }
   const requestBody = body || requestInit?.body;
-  const res = await fetch(url, {
+  return handleResponse(url, {
     ...requestInit,
     method: "POST",
     headers: { ...defaultHeaders, ...requestInit?.headers },
     body: requestBody ? JSON.stringify(requestBody) : undefined
-  })
-  .then((res) => {
-    if (res.ok) return res.json()
-    throw new Error(res.statusText)
-  })
-  .then((data) => {
-    return {
-      data,
-      error: null,
-    }
-  })
-  .catch((err) => {
-    return {
-      data: null,
-      error: err,
-    }
   });
-  return res
 }
 
 export async function putApiData<T extends keyof PutQuery>(
@@ -126,37 +126,13 @@ export async function putApiData<T extends keyof PutQuery>(
     }
   }
   const url = buildUrl(key, query);
-  // if [vars] in url, not fetch
-  if (url.includes("[") && url.includes("]")) {
-    return {
-      data: null,
-      error: new Error("query must be set"),
-    }
-  }
   const requestBody = body || requestInit?.body;
-  const res = await fetch(url, {
+  return handleResponse(url, {
     ...requestInit,
     method: "PUT",
     headers: { ...defaultHeaders, ...requestInit?.headers },
     body: requestBody ? JSON.stringify(requestBody) : undefined
   })
-  .then((res) => {
-    if (res.ok) return res.json()
-    throw new Error(res.statusText)
-  })
-  .then((data) => {
-    return {
-      data,
-      error: null,
-    }
-  })
-  .catch((err) => {
-    return {
-      data: null,
-      error: err,
-    }
-  });
-  return res
 }
 
 export async function patchApiData<T extends keyof PatchQuery>(
@@ -178,37 +154,13 @@ export async function patchApiData<T extends keyof PatchQuery>(
     }
   }
   const url = buildUrl(key, query);
-  // if [vars] in url, not fetch
-  if (url.includes("[") && url.includes("]")) {
-    return {
-      data: null,
-      error: new Error("query must be set"),
-    }
-  }
   const requestBody = body || requestInit?.body;
-  const res = await fetch(url, {
+  return handleResponse(url, {
     ...requestInit,
     method: "PATCH",
     headers: { ...defaultHeaders, ...requestInit?.headers },
     body: requestBody ? JSON.stringify(requestBody) : undefined
   })
-  .then((res) => {
-    if (res.ok) return res.json()
-    throw new Error(res.statusText)
-  })
-  .then((data) => {
-    return {
-      data,
-      error: null,
-    }
-  })
-  .catch((err) => {
-    return {
-      data: null,
-      error: err,
-    }
-  });
-  return res
 }
 
 export async function deleteApiData<T extends keyof DeleteQuery>(
@@ -230,37 +182,13 @@ export async function deleteApiData<T extends keyof DeleteQuery>(
     }
   }
   const url = buildUrl(key, query);
-  // if [vars] in url, not fetch
-  if (url.includes("[") && url.includes("]")) {
-    return {
-      data: null,
-      error: new Error("query must be set"),
-    }
-  }
   const requestBody = body || requestInit?.body;
-  const res = await fetch(url, {
+  return handleResponse(url, {
     ...requestInit,
     method: "DELETE",
     headers: { ...defaultHeaders, ...requestInit?.headers },
     body: requestBody ? JSON.stringify(requestBody) : undefined
   })
-  .then((res) => {
-    if (res.ok) return res.json()
-    throw new Error(res.statusText)
-  })
-  .then((data) => {
-    return {
-      data,
-      error: null,
-    }
-  })
-  .catch((err) => {
-    return {
-      data: null,
-      error: err,
-    }
-  });
-  return res
 }
 
 export async function getApiData<T extends keyof GetQuery>(
@@ -280,35 +208,11 @@ export async function getApiData<T extends keyof GetQuery>(
     }
   }
   const url = buildUrl(key, query);
-  // if [vars] in url, not fetch
-  if (url.includes("[") && url.includes("]")) {
-    return {
-      data: null,
-      error: new Error("query must be set"),
-    }
-  }
-  const res = await fetch(url, {
+  return handleResponse(url, {
     ...requestInit,
     method: "GET",
     headers: { ...defaultHeaders, ...requestInit?.headers },
   })
-  .then((res) => {
-    if (res.ok) return res.json()
-    throw new Error(res.statusText)
-  })
-  .then((data) => {
-    return {
-      data,
-      error: null,
-    }
-  })
-  .catch((err) => {
-    return {
-      data: null,
-      error: err,
-    }
-  });
-  return res
 }
 
 export const client = {

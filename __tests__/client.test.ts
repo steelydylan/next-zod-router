@@ -38,18 +38,17 @@ describe('client', () => {
       },
     })
   })
-  test('get request body', async () => {
+  test('get response body', async () => {
     const { data } = await client.get('/api/sample/[id]', {
       query: { id: '1' },
     })
     expect(data).toEqual({ message: 'hello' })
   })
-  test('get request body error', async () => {
+  test('get response body error', async () => {
     const { error, data } = await client.get('/api/bad/[id]', {
       query: { id: '1' },
     })
-    console.log(error)
-    expect(error).toEqual(new Error(''))
+    expect(error).toEqual(new Error('not found'))
     expect(data).toBe(null)
   })
   test("error when query not set", async () => {
