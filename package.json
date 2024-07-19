@@ -1,5 +1,5 @@
 {
-  "version": "0.0.42",
+  "version": "0.0.45",
   "name": "next-zod-router",
   "packageManager": "yarn@3.4.1",
   "bin": "./tools/index.js",
@@ -44,6 +44,7 @@
   "devDependencies": {
     "@types/node": "^18.15.11",
     "cors": "^2.8.5",
+    "msw": "^1.2.1",
     "next": "^13.3.0",
     "react-query": "^3.39.3",
     "swr": "^2.1.3",

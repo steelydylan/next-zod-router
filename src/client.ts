@@ -37,7 +37,7 @@ function buildQuery(url: string, query?: Record<string, string>) {
   if (Object.keys(query).length === 0) {
     return url;
   }
-  const queryString = qs.stringify(query);
+  const queryString = qs.stringify(query, { arrayFormat: 'repeat' });
   return `${url}?${queryString}`;
 }
 
@@ -57,6 +57,10 @@ function buildUrl(url: string, query?: Record<string, string>) {
 
 async function handleResponse(url: string, requestInit?: RequestInit) {
   try {
+    // if [vars] in url, not fetch
+    if (url.includes("[") && url.includes("]")) {
+      throw new Error("query must be set");
+    }
     const res = await fetch(url, requestInit)
     const data = await res.json()
     if (res.ok) { 

@@ -10,6 +10,7 @@ global.fetch = vi.fn((url, options) => {
     })
   }
   return Promise.resolve({
+    ok: false,
     json: () => Promise.reject(new Error('not found')),
   })
 })
@@ -44,10 +45,16 @@ describe('client', () => {
     expect(data).toEqual({ message: 'hello' })
   })
   test('get response body error', async () => {
-    const { error } = await client.get('/api/bad/[id]', {
+    const { error, data } = await client.get('/api/bad/[id]', {
       query: { id: '1' },
     })
     expect(error).toEqual(new Error('not found'))
+    expect(data).toBe(null)
+  })
+  test("error when query not set", async () => {
+    const { error, data } = await client.get('/api/sample/[id]')
+    expect(error).toEqual(new Error('query must be set'))
+    expect(data).toBe(null)
   })
   test('post', async () => {
     client.post('/api/sample', {
